@@ -25,6 +25,7 @@ class ProductsScreen extends StatelessWidget {
       children: [
         // Header
         Container(
+
           padding: EdgeInsets.all(16),
           color: Colors.blue.shade50,
           child: Row(

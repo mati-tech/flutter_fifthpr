@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Application state
+
   List<Product> _products = [];
   List<CartItem> _cartItems = [];
   List<Order> _orders = [];
@@ -281,7 +281,8 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Simple E-Commerce'),
+        title: Text('Storely'),
+
         backgroundColor: Colors.blue.shade800,
         foregroundColor: Colors.white,
         actions: [

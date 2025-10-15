@@ -98,7 +98,7 @@ class ProductCard extends StatelessWidget {
                 ),
                 SizedBox(width: 8),
                 IconButton(
-                  icon: Icon(Icons.info_outline, size: 20),
+                  icon: Icon(Icons.more_horiz_outlined, size: 20),
                   onPressed: onViewDetails,
                 ),
               ],
