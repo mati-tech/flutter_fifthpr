@@ -37,18 +37,18 @@ class CartScreen extends StatelessWidget {
         },
       )
           : Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: cartContainer.cartItems.length,
-              itemBuilder: (context, index) {
-                final cartItem = cartContainer.cartItems[index];
-                return CartTile(cartItem: cartItem);
-              },
+          children: [
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: cartContainer.cartItems.length,
+                itemBuilder: (context, index) {
+                  final cartItem = cartContainer.cartItems[index];
+                  return CartTile(cartItem: cartItem);
+                },
+              ),
             ),
-          ),
-          CartSummary(
+            CartSummary(
             totalPrice: cartContainer.totalPrice,
             itemCount: cartContainer.cartItemsCount,
             onCheckout: () {

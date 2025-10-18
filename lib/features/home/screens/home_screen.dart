@@ -3,7 +3,16 @@ import '../models/product.dart';
 import '../widgets/product_grid.dart';
 import '../widgets/product_tile.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
   final List<Product> featuredProducts = [
     Product(
       id: '1',
@@ -11,7 +20,7 @@ class HomeScreen extends StatelessWidget {
       description: 'Latest Apple smartphone with A16 Bionic chip',
       price: 999.99,
       originalPrice: 1199.99,
-      imageUrl: 'https://picsum.photos/200/300?random=1',
+      imageUrl: 'assets/images/img.png',
       category: 'Smartphones',
       rating: 4.8,
       reviewCount: 234,
@@ -22,7 +31,7 @@ class HomeScreen extends StatelessWidget {
       name: 'Samsung Galaxy S23',
       description: 'Powerful Android phone with great camera',
       price: 849.99,
-      imageUrl: 'https://picsum.photos/200/300?random=2',
+      imageUrl: 'assets/images/img_2.png',
       category: 'Smartphones',
       rating: 4.6,
       reviewCount: 189,
@@ -33,7 +42,7 @@ class HomeScreen extends StatelessWidget {
       name: 'MacBook Air M2',
       description: 'Lightweight laptop with Apple M2 chip',
       price: 1199.99,
-      imageUrl: 'https://picsum.photos/200/300?random=3',
+      imageUrl: 'assets/images/img_3.png',
       category: 'Laptops',
       rating: 4.9,
       reviewCount: 156,
@@ -45,7 +54,7 @@ class HomeScreen extends StatelessWidget {
       description: 'Noise cancelling wireless headphones',
       price: 349.99,
       originalPrice: 399.99,
-      imageUrl: 'https://picsum.photos/200/300?random=4',
+      imageUrl: 'assets/images/img_4.png',
       category: 'Audio',
       rating: 4.7,
       reviewCount: 312,
@@ -53,23 +62,42 @@ class HomeScreen extends StatelessWidget {
     ),
   ];
 
-  HomeScreen({super.key});
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+      // Home — stay here
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/favorites');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/cart');
+        break;
+      case 3:
+        Navigator.pushNamed(context, '/settings');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ElectroStore'),
+        title: const Text('StorelyTech'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.person_outline),
+            onPressed: () {
+              Navigator.pushNamed(context, '/profile');
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined),
-            onPressed: () {
-              Navigator.pushNamed(context, '/cart');
-            },
           ),
         ],
       ),
@@ -114,6 +142,30 @@ class HomeScreen extends StatelessWidget {
             ProductGrid(products: featuredProducts),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blueAccent,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart_outlined),
+            label: 'Basket',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings_outlined),
+            label: 'Settings',
+          ),
+        ],
       ),
     );
   }
