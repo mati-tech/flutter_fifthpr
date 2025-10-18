@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/cart_item.dart';
+import 'models/cart_item.dart';
 
 
 class CartItemCard extends StatelessWidget {
@@ -39,7 +39,7 @@ class CartItemCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    cartItem.product.title,
+                    cartItem.product.name,
                     style: TextStyle(fontWeight: FontWeight.bold),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

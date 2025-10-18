@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/order.dart';
+import 'models/order.dart';
 import 'orders_card.dart';
 
 // Orders Screen

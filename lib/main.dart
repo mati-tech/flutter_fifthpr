@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'StorelyApp.dart';
+import 'app.dart';
 
 void main() {
-  runApp(StorelyApp());
+  runApp(App());
 }

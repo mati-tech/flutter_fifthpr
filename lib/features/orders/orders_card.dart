@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../models/order.dart';
+import 'models/order.dart';
+
+
 
 // Order Card
 class OrderCard extends StatelessWidget {
@@ -27,11 +29,11 @@ class OrderCard extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: _getStatusColor(order.status),
+                    color: _getStatusColor(order.status as String),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    order.status.toUpperCase(),
+                    order.status.toString().toUpperCase(),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
