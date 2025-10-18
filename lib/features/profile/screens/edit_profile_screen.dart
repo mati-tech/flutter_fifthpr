@@ -22,16 +22,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     final profileContainer = Provider.of<ProfileContainer>(context, listen: false);
-    final user = profileContainer.currentUser!;
+    // final user = profileContainer.currentUser!;
 
-    _nameController = TextEditingController(text: user.name);
-    _phoneController = TextEditingController(text: user.phone);
-    _addressController = TextEditingController(text: user.address);
-    _dobController = TextEditingController(
-        text: user.dateOfBirth != null
-            ? '${user.dateOfBirth!.day}/${user.dateOfBirth!.month}/${user.dateOfBirth!.year}'
-            : ''
-    );
+    // _nameController = TextEditingController(text: user.name);
+    // _phoneController = TextEditingController(text: user.phone);
+    // _addressController = TextEditingController(text: user.address);
+    // _dobController = TextEditingController(
+    //     text: user.dateOfBirth != null
+    //         ? '${user.dateOfBirth!.day}/${user.dateOfBirth!.month}/${user.dateOfBirth!.year}'
+    //         : ''
+    // );
   }
 
   @override
@@ -61,7 +61,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final profileContainer = Provider.of<ProfileContainer>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),

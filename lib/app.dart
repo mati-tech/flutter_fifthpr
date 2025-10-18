@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'features/auth/screens/login_screen.dart';
+import 'features/profile/screens/edit_profile_screen.dart';
+import 'features/profile/screens/profile_screen.dart';
+import 'features/profile/state/profile_container.dart';
 import 'shared/app_theme.dart';
 import 'features/auth/state/auth_container.dart';
 import 'features/home/screens/home_screen.dart';
@@ -26,6 +29,7 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FavoritesContainer()),
         ChangeNotifierProvider(create: (_) => OrdersContainer()),
         ChangeNotifierProvider(create: (_) => SettingsContainer()),
+        ChangeNotifierProvider(create: (_) => ProfileContainer()),
       ],
       child: MaterialApp(
         title: 'StorelyTech',
@@ -39,6 +43,8 @@ class App extends StatelessWidget {
           '/orders': (context) =>  OrdersScreen(),
           '/order-detail': (context) =>  OrderDetailScreen(),
           '/settings': (context) =>  SettingsScreen(),
+          '/profile': (context) =>  ProfileScreen(),
+          // '/edit-profile': (context) =>  EditProfileScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

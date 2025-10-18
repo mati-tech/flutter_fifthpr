@@ -17,46 +17,48 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   void _login() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
-
-      setState(() {
-        _isLoading = false;
-      });
-
-      // Navigate to home on success
-      Navigator.pushReplacementNamed(context, '/home');
-    }
+    // if (_formKey.currentState!.validate()) {
+    //   setState(() {
+    //     _isLoading = true;
+    //   });
+    //
+    //   // Simulate API call
+    //   await Future.delayed(const Duration(seconds: 2));
+    //
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    //
+    //   // Navigate to home on success
+    //
+    // }
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: SafeArea( // here a safe area to avoid the operating system interface for the app
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 60),
                 // Header
                 const Text(
-                  'Welcome Back',
+                  'Welcome Back!',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Sign in to your account',
+                  'Sign in to your Storely account',
                   style: TextStyle(
                     fontSize: 16,
                     color: AppTheme.secondaryColor,

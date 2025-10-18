@@ -60,7 +60,7 @@ class SettingsScreen extends StatelessWidget {
                   AppButton(
                     text: 'Edit Profile',
                     onPressed: () {
-                      // Navigate to edit profile
+                      Navigator.pushNamed(context, 'profile');
                     },
                     isFullWidth: true,
                   ),
