@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'features/auth/screens/login_screen.dart';
+import 'features/home/screens/search_results_screen.dart';
+import 'features/home/state/home_container.dart';
 import 'features/profile/screens/edit_profile_screen.dart';
 import 'features/profile/screens/profile_screen.dart';
 import 'features/profile/state/profile_container.dart';
@@ -26,6 +28,7 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthContainer()),
         ChangeNotifierProvider(create: (_) => CartContainer()),
+        ChangeNotifierProvider(create: (_) => HomeContainer()),
         ChangeNotifierProvider(create: (_) => FavoritesContainer()),
         ChangeNotifierProvider(create: (_) => OrdersContainer()),
         ChangeNotifierProvider(create: (_) => SettingsContainer()),
@@ -41,6 +44,7 @@ class App extends StatelessWidget {
           '/cart': (context) =>  CartScreen(),
           '/favorites': (context) =>  FavoritesScreen(),
           '/orders': (context) =>  OrdersScreen(),
+          '/search': (context) => const SearchResultsScreen(),
           '/order-detail': (context) =>  OrderDetailScreen(),
           '/settings': (context) =>  SettingsScreen(),
           '/profile': (context) =>  ProfileScreen(),

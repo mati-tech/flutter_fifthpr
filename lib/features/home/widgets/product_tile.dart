@@ -3,7 +3,7 @@ import '../../../shared/app_theme.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../models/product.dart';
 import '../screens/product_detail_screen.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 class ProductTile extends StatelessWidget {
   final Product product;
 
@@ -18,7 +18,6 @@ class ProductTile extends StatelessWidget {
 
   const ProductTile({super.key, required this.product});
 
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => _navigateToProductDetail(context),
@@ -37,10 +36,22 @@ class ProductTile extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(
-                      image: NetworkImage(product.imageUrl),
-                      fit: BoxFit.cover,
-                    ),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: product.imageUrl,
+                    fit: BoxFit.cover,
+                    progressIndicatorBuilder: (context, url, progress) =>
+                    const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) {
+                      print("Error loading image: $error"); // console
+                      print("URL: $url");
+                      return Center(
+                        child: Icon(
+                          Icons.image,
+                          color: Colors.red, // red to see better
+                        ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: 12),

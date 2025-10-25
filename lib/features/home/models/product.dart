@@ -6,7 +6,7 @@ class Product {
   final double? originalPrice;
   final String imageUrl;
   final String category;
-  final String brand; // Add this field
+  final String brand;
   final double rating;
   final int reviewCount;
   final bool isFeatured;
@@ -20,7 +20,7 @@ class Product {
     this.originalPrice,
     required this.imageUrl,
     required this.category,
-    this.brand = 'Generic', // Default value
+    this.brand = 'Generic',
     this.rating = 0.0,
     this.reviewCount = 0,
     this.isFeatured = false,
