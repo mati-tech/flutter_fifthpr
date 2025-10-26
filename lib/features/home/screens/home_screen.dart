@@ -218,15 +218,18 @@ class _HomeScreenState extends State<HomeScreen> {
     final authContainer = Provider.of<AuthContainer>(context);
 
     return Scaffold(
+      // The top part of the app with the profile app button and the search button to search for the products
       appBar: AppBar(
         title: const Text('StorelyTech'),
         actions: [
+          //profile
           IconButton(
             icon: const Icon(Icons.person_outline),
             onPressed: () {
               Navigator.pushNamed(context, '/profile');
             },
           ),
+          //search
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
@@ -238,6 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
+
         ],
       ),
       body: SingleChildScrollView(

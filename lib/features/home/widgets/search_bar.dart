@@ -62,15 +62,15 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         controller: _searchController,
         focusNode: _focusNode,
         decoration: InputDecoration(
-          hintText: 'Search products...',
+          hintText: 'Search your favorite electronics...',
           prefixIcon: const Icon(Icons.search, color: AppTheme.secondaryColor),
           suffixIcon: homeContainer.searchQuery.isNotEmpty
               ? IconButton(
-            icon: Icon(Icons.close, color: AppTheme.secondaryColor),
-            onPressed: () {
-              _searchController.clear();
-              homeContainer.clearFilters();
-              _focusNode.unfocus();
+                icon: Icon(Icons.close, color: AppTheme.secondaryColor),
+                onPressed: () {
+                  _searchController.clear();
+                  homeContainer.clearFilters();
+                  _focusNode.unfocus();
             },
           )
               : null,

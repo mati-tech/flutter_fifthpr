@@ -16,7 +16,7 @@ class SearchResultsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Products'),
+        title: const Text('Search your electronics...'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
