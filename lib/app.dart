@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:storelytech/features/auth/screens/register_screen.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/home/screens/search_results_screen.dart';
 import 'features/home/state/home_container.dart';
@@ -40,6 +41,7 @@ class App extends StatelessWidget {
         initialRoute: '/login',
         routes: {
           '/login': (context) => LoginScreen(),
+          '/register': (context) => RegisterScreen(),
           '/home': (context) => HomeScreen(),
           '/cart': (context) =>  CartScreen(),
           '/favorites': (context) =>  FavoritesScreen(),
