@@ -17,12 +17,7 @@ class SearchResultsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search your electronics...'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+
         actions: [
           if (homeContainer.searchQuery.isNotEmpty || homeContainer.selectedCategory != 'All')
             IconButton(

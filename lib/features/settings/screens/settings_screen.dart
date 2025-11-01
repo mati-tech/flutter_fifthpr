@@ -16,6 +16,11 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
+        actions: [
+            IconButton(onPressed: (){
+              Navigator.pop(context);
+              }, icon: Icon(Icons.arrow_back))
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

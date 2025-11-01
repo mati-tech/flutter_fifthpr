@@ -23,6 +23,10 @@ class FavoritesScreen extends StatelessWidget {
                 _showClearConfirmationDialog(context, favoritesContainer);
               },
             ),
+           // IconButton(onPressed: (){
+           //   Navigator.pop(context);
+           // },
+           //     icon: const Icon(Icons.arrow_back, color: Colors.black,))
         ],
       ),
       body: favoritesContainer.favorites.isEmpty

@@ -20,9 +20,12 @@ class ProfileScreen extends StatelessWidget {
             icon: const Icon(Icons.edit),
             onPressed: () {
               Navigator.pushNamed(context, '/edit-profile');
-
             },
           ),
+          IconButton(onPressed: (){
+            Navigator.pop(context);
+          },
+              icon: const Icon(Icons.arrow_back, color: Colors.black,))
         ],
       ),
       body: profileContainer.currentUser == null

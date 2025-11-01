@@ -174,6 +174,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storelytech/features/home/screens/search_results_screen.dart';
+import 'package:storelytech/features/settings/screens/settings_screen.dart';
+import '../../favorites/screens/favorites_screen.dart';
+import '../../profile/screens/profile_screen.dart';
 import '../state/home_container.dart';
 import '../widgets/product_grid.dart';
 import '../widgets/product_tile.dart';
@@ -201,13 +204,21 @@ class _HomeScreenState extends State<HomeScreen> {
       // Already on home, do nothing
         break;
       case 1:
-        Navigator.pushNamed(context, '/favorites');
+        // Navigator.pushNamed(context, '/favorites');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const FavoritesScreen()),
+        );
         break;
       case 2:
         Navigator.pushNamed(context, '/cart');
         break;
       case 3:
-        Navigator.pushNamed(context, '/settings');
+        // Navigator.pushNamed(context, '/settings');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const SettingsScreen()),
+        );
         break;
     }
   }
@@ -226,14 +237,18 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.person_outline),
             onPressed: () {
-              Navigator.pushNamed(context, '/profile');
+              // Navigator.pushNamed(context, '/profile');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
             },
           ),
           //search
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const SearchResultsScreen(),

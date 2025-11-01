@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../shared/app_theme.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../../../shared/widgets/app_text_field.dart';
+import '../../home/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,25 +17,33 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
 
+  // void _login() async {
+  //   // if (_formKey.currentState!.validate()) {
+  //   //   setState(() {
+  //   //     _isLoading = true;
+  //   //   });
+  //   //
+  //   //   // Simulate API call
+  //   //   await Future.delayed(const Duration(seconds: 2));
+  //   //
+  //   //   setState(() {
+  //   //     _isLoading = false;
+  //   //   });
+  //   //
+  //   //   // Navigate to home on success
+  //   //
+  //   // }
+  //   // Navigator.pushReplacementNamed(context, '/home');
+  //
+  // }
   void _login() async {
-    // if (_formKey.currentState!.validate()) {
-    //   setState(() {
-    //     _isLoading = true;
-    //   });
-    //
-    //   // Simulate API call
-    //   await Future.delayed(const Duration(seconds: 2));
-    //
-    //   setState(() {
-    //     _isLoading = false;
-    //   });
-    //
-    //   // Navigate to home on success
-    //
-    // }
-    Navigator.pushReplacementNamed(context, '/home');
-  }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
+    );
+    // Navigator.pushReplacementNamed(context, '/home');
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
