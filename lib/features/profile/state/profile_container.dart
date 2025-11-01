@@ -8,6 +8,20 @@ class ProfileContainer extends ChangeNotifier {
   User? get currentUser => _currentUser;
   bool get isLoading => _isLoading;
 
+
+  // Add a method to initialize with sample data for testing
+  void initializeWithSampleUser() {
+    _currentUser = User(
+      id: '1',
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      // Add other required fields from your User model
+    );
+    notifyListeners();
+  }
+
   void setUser(User user) {
     _currentUser = user;
     notifyListeners();

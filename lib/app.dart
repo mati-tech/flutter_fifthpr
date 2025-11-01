@@ -20,6 +20,51 @@ import 'features/orders/state/orders_container.dart';
 import 'features/settings/screens/settings_screen.dart';
 import 'features/settings/state/settings_container.dart';
 
+// class App extends StatelessWidget {
+//   const App({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (_) => AuthContainer()),
+//         ChangeNotifierProvider(create: (_) => CartContainer()),
+//         ChangeNotifierProvider(create: (_) => HomeContainer()),
+//         ChangeNotifierProvider(create: (_) => FavoritesContainer()),
+//         ChangeNotifierProvider(create: (_) => OrdersContainer()),
+//         ChangeNotifierProvider(create: (_) => SettingsContainer()),
+//         ChangeNotifierProvider(create: (_) => ProfileContainer()),
+//       ],
+//       child: MaterialApp(
+//         title: 'StorelyTech',
+//         theme: AppTheme.lightTheme,
+//         initialRoute: '/login',
+//         routes: {
+//           '/login': (context) => LoginScreen(),
+//           '/register': (context) => RegisterScreen(),
+//           '/home': (context) => HomeScreen(),
+//           '/cart': (context) =>  CartScreen(),
+//           '/favorites': (context) =>  FavoritesScreen(),
+//           '/orders': (context) =>  OrdersScreen(),
+//           '/search': (context) => const SearchResultsScreen(),
+//           '/order-detail': (context) =>  OrderDetailScreen(),
+//           '/settings': (context) =>  SettingsScreen(),
+//           '/profile': (context) =>  ProfileScreen(),
+//           '/edit-profile': (context) =>  EditProfileScreen(),
+//           ChangeNotifierProvider(
+//             create: (_) {
+//               final profileContainer = ProfileContainer();
+//               profileContainer.initializeWithSampleUser(); // Add this line
+//               return profileContainer;
+//             },
+//           ),
+//         },
+//         debugShowCheckedModeBanner: false,
+//       ),
+//     );
+//   }
+// }
+
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -33,7 +78,13 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FavoritesContainer()),
         ChangeNotifierProvider(create: (_) => OrdersContainer()),
         ChangeNotifierProvider(create: (_) => SettingsContainer()),
-        ChangeNotifierProvider(create: (_) => ProfileContainer()),
+        ChangeNotifierProvider(
+          create: (_) {
+            final profileContainer = ProfileContainer();
+            profileContainer.initializeWithSampleUser(); // Add this line
+            return profileContainer;
+          },
+        ),
       ],
       child: MaterialApp(
         title: 'StorelyTech',
@@ -43,14 +94,14 @@ class App extends StatelessWidget {
           '/login': (context) => LoginScreen(),
           '/register': (context) => RegisterScreen(),
           '/home': (context) => HomeScreen(),
-          '/cart': (context) =>  CartScreen(),
-          '/favorites': (context) =>  FavoritesScreen(),
-          '/orders': (context) =>  OrdersScreen(),
+          '/cart': (context) => CartScreen(),
+          '/favorites': (context) => FavoritesScreen(),
+          '/orders': (context) => OrdersScreen(),
           '/search': (context) => const SearchResultsScreen(),
-          '/order-detail': (context) =>  OrderDetailScreen(),
-          '/settings': (context) =>  SettingsScreen(),
-          '/profile': (context) =>  ProfileScreen(),
-          // '/edit-profile': (context) =>  EditProfileScreen(),
+          '/order-detail': (context) => OrderDetailScreen(),
+          '/settings': (context) => SettingsScreen(),
+          '/profile': (context) => ProfileScreen(),
+          '/edit-profile': (context) => EditProfileScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

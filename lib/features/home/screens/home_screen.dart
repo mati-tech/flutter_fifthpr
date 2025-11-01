@@ -291,6 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             ProductGrid(products: homeContainer.filteredProducts),
+
           ],
         ),
       ),

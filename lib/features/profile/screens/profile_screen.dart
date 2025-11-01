@@ -20,6 +20,7 @@ class ProfileScreen extends StatelessWidget {
             icon: const Icon(Icons.edit),
             onPressed: () {
               Navigator.pushNamed(context, '/edit-profile');
+
             },
           ),
         ],
@@ -27,19 +28,19 @@ class ProfileScreen extends StatelessWidget {
       body: profileContainer.currentUser == null
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            // Profile Header
-            _buildProfileHeader(context, profileContainer.currentUser!),
-            const SizedBox(height: 24),
+             padding: const EdgeInsets.all(16),
+              child: Column(
+                  children: [
+                    // Profile Header
+                    _buildProfileHeader(context, profileContainer.currentUser!),
+                    const SizedBox(height: 24),
 
-            // Personal Information
-            _buildPersonalInfoCard(profileContainer.currentUser!),
-            const SizedBox(height: 16),
+                    // Personal Information
+                    _buildPersonalInfoCard(profileContainer.currentUser!),
+                    const SizedBox(height: 16),
 
-            // Account Settings
-            _buildAccountSettingsCard(context),
+                    // Account Settings
+                    _buildAccountSettingsCard(context),
           ],
         ),
       ),
@@ -61,20 +62,14 @@ class ProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppTheme.primaryColor.withOpacity(0.1),
-                    image: user.profileImageUrl != null
-                        ? DecorationImage(
-                      image: NetworkImage(user.profileImageUrl!),
-                      fit: BoxFit.cover,
-                    )
-                        : null,
+
                   ),
-                  child: user.profileImageUrl == null
-                      ? const Icon(
+                  child:  Icon(
                     Icons.person,
                     size: 40,
                     color: AppTheme.primaryColor,
                   )
-                      : null,
+                      ,
                 ),
                 Positioned(
                   bottom: 0,

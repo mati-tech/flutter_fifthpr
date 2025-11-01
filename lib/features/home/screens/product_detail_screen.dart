@@ -27,7 +27,7 @@ class ProductDetailScreen extends StatelessWidget {
             pinned: true,
             floating: true,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -36,14 +36,14 @@ class ProductDetailScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 onPressed: () {
                   favoritesContainer.toggleFavorite(product);
                 },
               ),
               IconButton(
-                icon: const Icon(Icons.share, color: Colors.white),
+                icon: const Icon(Icons.share, color: Colors.black),
                 onPressed: () {
                   _shareProduct(context);
                 },
