@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../state/favorites_container.dart';
@@ -23,10 +24,6 @@ class FavoritesScreen extends StatelessWidget {
                 _showClearConfirmationDialog(context, favoritesContainer);
               },
             ),
-           // IconButton(onPressed: (){
-           //   Navigator.pop(context);
-           // },
-           //     icon: const Icon(Icons.arrow_back, color: Colors.black,))
         ],
       ),
       body: favoritesContainer.favorites.isEmpty

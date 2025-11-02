@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../../cart/state/cart_container.dart';
@@ -29,7 +30,7 @@ class ProductDetailScreen extends StatelessWidget {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () {
-                Navigator.pop(context);
+                context.pop();
               },
             ),
             actions: [

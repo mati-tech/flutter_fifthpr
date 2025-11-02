@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../../../shared/widgets/app_button.dart';
@@ -16,11 +17,13 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
-        actions: [
-            IconButton(onPressed: (){
-              Navigator.pop(context);
-              }, icon: Icon(Icons.arrow_back))
-        ],
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
+        //   onPressed: () {
+        //     context.pop();
+        //   },
+        // ),
+
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),

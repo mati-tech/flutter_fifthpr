@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../shared/app_theme.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../models/product.dart';
@@ -8,12 +9,7 @@ class ProductTile extends StatelessWidget {
   final Product product;
 
   void _navigateToProductDetail(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProductDetailScreen(product: product),
-      ),
-    );
+    context.push('/product_detail', extra: product);
   }
 
   const ProductTile({super.key, required this.product});

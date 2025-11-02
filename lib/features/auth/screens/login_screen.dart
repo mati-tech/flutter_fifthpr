@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../shared/app_theme.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../../../shared/widgets/app_text_field.dart';
@@ -18,31 +19,27 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   // void _login() async {
-  //   // if (_formKey.currentState!.validate()) {
-  //   //   setState(() {
-  //   //     _isLoading = true;
-  //   //   });
-  //   //
-  //   //   // Simulate API call
-  //   //   await Future.delayed(const Duration(seconds: 2));
-  //   //
-  //   //   setState(() {
-  //   //     _isLoading = false;
-  //   //   });
-  //   //
-  //   //   // Navigate to home on success
-  //   //
-  //   // }
-  //   // Navigator.pushReplacementNamed(context, '/home');
-  //
-  // }
-  void _login() async {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
-    );
+    // if (_formKey.currentState!.validate()) {
+    //   setState(() {
+    //     _isLoading = true;
+    //   });
+    //
+    //   // Simulate API call
+    //   await Future.delayed(const Duration(seconds: 2));
+    //
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    //
+    //   // Navigate to home on success
+    //
+    // }
     // Navigator.pushReplacementNamed(context, '/home');
 
+  // }
+  void _login() async {
+    context.go('/home');
+    // Navigator.pushReplacementNamed(context, '/home');
   }
   @override
   Widget build(BuildContext context) {

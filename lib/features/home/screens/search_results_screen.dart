@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../state/home_container.dart';
@@ -17,6 +18,12 @@ class SearchResultsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search your electronics...'),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
+        //   onPressed: () {
+        //     context.pop();
+        //   },
+        // ),
 
         actions: [
           if (homeContainer.searchQuery.isNotEmpty || homeContainer.selectedCategory != 'All')

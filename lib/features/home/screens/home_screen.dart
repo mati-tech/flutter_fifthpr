@@ -172,6 +172,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:storelytech/features/home/screens/search_results_screen.dart';
 import 'package:storelytech/features/settings/screens/settings_screen.dart';
@@ -201,24 +202,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
     switch (index) {
       case 0:
-      // Already on home, do nothing
+            // Already on home, do nothing
         break;
       case 1:
         // Navigator.pushNamed(context, '/favorites');
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const FavoritesScreen()),
-        );
+        context.go('/favorites');
         break;
       case 2:
         Navigator.pushNamed(context, '/cart');
         break;
       case 3:
+        context.go('/settings');
         // Navigator.pushNamed(context, '/settings');
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const SettingsScreen()),
-        );
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const SettingsScreen()),
+        // );
         break;
     }
   }
@@ -238,22 +237,14 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.person_outline),
             onPressed: () {
               // Navigator.pushNamed(context, '/profile');
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfileScreen()),
-              );
+              context.go('/profile');
             },
           ),
           //search
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SearchResultsScreen(),
-                ),
-              );
+              context.go('/search');
             },
           ),
 

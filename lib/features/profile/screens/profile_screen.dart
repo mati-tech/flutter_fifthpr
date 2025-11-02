@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../auth/models/user.dart';
 import '../state/profile_container.dart';
@@ -15,6 +16,12 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Profile'),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
+        //   onPressed: () {
+        //     context.pop();
+        //   },
+        // ),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
@@ -22,10 +29,7 @@ class ProfileScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/edit-profile');
             },
           ),
-          IconButton(onPressed: (){
-            Navigator.pop(context);
-          },
-              icon: const Icon(Icons.arrow_back, color: Colors.black,))
+
         ],
       ),
       body: profileContainer.currentUser == null
