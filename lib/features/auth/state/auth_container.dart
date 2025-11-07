@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/user.dart';
-
+//
 class AuthContainer extends ChangeNotifier {
   User? _currentUser;
   bool _isLoading = false;
@@ -35,3 +35,4 @@ class AuthContainer extends ChangeNotifier {
     }
   }
 }
+
