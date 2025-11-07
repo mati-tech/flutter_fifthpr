@@ -225,10 +225,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<HomeContainer>(
+    return ContainerListenableBuilder<HomeContainer>(
       getNotifier: () => getIt<HomeContainer>(),
       builder: (context, homeContainer) {
-        return ListenableBuilder<AuthContainer>(
+        return ContainerListenableBuilder<AuthContainer>(
           getNotifier: () => getIt<AuthContainer>(),
           builder: (context, authContainer) {
             return Scaffold(

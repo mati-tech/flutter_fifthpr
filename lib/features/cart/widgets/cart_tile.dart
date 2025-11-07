@@ -13,7 +13,7 @@ class CartTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<CartContainer>(
+    return ContainerListenableBuilder<CartContainer>(
       getNotifier: () => getIt<CartContainer>(),
       builder: (context, cartContainer) {
         return Card(

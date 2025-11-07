@@ -10,7 +10,7 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<OrdersContainer>(
+    return ContainerListenableBuilder<OrdersContainer>(
       getNotifier: () => getIt<OrdersContainer>(),
       builder: (context, ordersContainer) {
         return Scaffold(

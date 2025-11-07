@@ -12,10 +12,10 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<SettingsContainer>(
+    return ContainerListenableBuilder<SettingsContainer>(
       getNotifier: () => getIt<SettingsContainer>(),
       builder: (context, settingsContainer) {
-        return ListenableBuilder<AuthContainer>(
+        return ContainerListenableBuilder<AuthContainer>(
           getNotifier: () => getIt<AuthContainer>(),
           builder: (context, authContainer) {
             return Scaffold(

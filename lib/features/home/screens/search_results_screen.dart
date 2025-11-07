@@ -14,7 +14,7 @@ class SearchResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<HomeContainer>(
+    return ContainerListenableBuilder<HomeContainer>(
       getNotifier: () => getIt<HomeContainer>(),
       builder: (context, homeContainer) {
         return Scaffold(

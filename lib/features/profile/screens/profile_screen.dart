@@ -12,7 +12,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<ProfileContainer>(
+    return ContainerListenableBuilder<ProfileContainer>(
       getNotifier: () => getIt<ProfileContainer>(),
       builder: (context, profileContainer) {
         return Scaffold(

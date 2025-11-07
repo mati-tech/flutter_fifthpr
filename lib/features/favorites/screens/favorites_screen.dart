@@ -12,7 +12,7 @@ class FavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<FavoritesContainer>(
+    return ContainerListenableBuilder<FavoritesContainer>(
       getNotifier: () => getIt<FavoritesContainer>(),
       builder: (context, favoritesContainer) {
         return Scaffold(

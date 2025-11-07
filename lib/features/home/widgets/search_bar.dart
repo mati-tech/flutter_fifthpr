@@ -40,7 +40,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<HomeContainer>(
+    return ContainerListenableBuilder<HomeContainer>(
       getNotifier: () => getIt<HomeContainer>(),
       builder: (context, homeContainer) {
         return Container(

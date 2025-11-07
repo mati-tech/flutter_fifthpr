@@ -67,7 +67,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<ProfileContainer>(
+    return ContainerListenableBuilder<ProfileContainer>(
       getNotifier: () => getIt<ProfileContainer>(),
       builder: (context, profileContainer) {
         return Scaffold(

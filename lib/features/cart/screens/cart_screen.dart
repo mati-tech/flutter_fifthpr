@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide ListenableBuilder;
+import 'package:flutter/material.dart';
 import '../../../shared/app_theme.dart';
 import '../state/cart_container.dart';
 import '../widgets/cart_tile.dart';
@@ -12,7 +12,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<CartContainer>(
+    return ContainerListenableBuilder<CartContainer>(
       getNotifier: () => getIt<CartContainer>(),
       builder: (context, cartContainer) {
         return Scaffold(

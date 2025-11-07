@@ -16,10 +16,10 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder<CartContainer>(
+    return ContainerListenableBuilder<CartContainer>(
       getNotifier: () => getIt<CartContainer>(),
       builder: (context, cartContainer) {
-        return ListenableBuilder<FavoritesContainer>(
+        return ContainerListenableBuilder<FavoritesContainer>(
           getNotifier: () => getIt<FavoritesContainer>(),
           builder: (context, favoritesContainer) {
             final isFavorite = favoritesContainer.isProductFavorite(product.id);

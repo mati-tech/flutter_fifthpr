@@ -13,7 +13,7 @@ class OrderDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orderId = ModalRoute.of(context)!.settings.arguments as String;
-    return ListenableBuilder<OrdersContainer>(
+    return ContainerListenableBuilder<OrdersContainer>(
       getNotifier: () => getIt<OrdersContainer>(),
       builder: (context, ordersContainer) {
         final order = ordersContainer.getOrder(orderId);
