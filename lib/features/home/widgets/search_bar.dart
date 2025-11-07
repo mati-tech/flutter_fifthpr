@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../screens/search_results_screen.dart';
 import '../state/home_container.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class SearchBarWidget extends StatefulWidget {
   final bool autoFocus;
@@ -39,9 +40,10 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final homeContainer = Provider.of<HomeContainer>(context);
-
-    return Container(
+    return ListenableBuilder<HomeContainer>(
+      getNotifier: () => getIt<HomeContainer>(),
+      builder: (context, homeContainer) {
+        return Container(
       margin: widget.showInAppBar
           ? const EdgeInsets.symmetric(horizontal: 0)
           : const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -101,6 +103,8 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
             : null,
         readOnly: widget.showInAppBar,
       ),
+        );
+      },
     );
   }
 }

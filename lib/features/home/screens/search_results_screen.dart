@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../state/home_container.dart';
 import '../widgets/product_grid.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/category_filter.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class SearchResultsScreen extends StatelessWidget {
   const SearchResultsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final homeContainer = Provider.of<HomeContainer>(context);
-
-    return Scaffold(
+    return ListenableBuilder<HomeContainer>(
+      getNotifier: () => getIt<HomeContainer>(),
+      builder: (context, homeContainer) {
+        return Scaffold(
       appBar: AppBar(
         title: const Text('Search your electronics...'),
         // leading: IconButton(
@@ -48,6 +50,8 @@ class SearchResultsScreen extends StatelessWidget {
           ),
         ],
       ),
+        );
+      },
     );
   }
 

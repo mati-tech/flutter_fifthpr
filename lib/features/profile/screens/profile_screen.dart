@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../../auth/models/user.dart';
 import '../state/profile_container.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../../../shared/app_theme.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final profileContainer = Provider.of<ProfileContainer>(context);
-
-    return Scaffold(
+    return ListenableBuilder<ProfileContainer>(
+      getNotifier: () => getIt<ProfileContainer>(),
+      builder: (context, profileContainer) {
+        return Scaffold(
       appBar: AppBar(
         title: const Text('My Profile'),
         // leading: IconButton(
@@ -51,6 +53,8 @@ class ProfileScreen extends StatelessWidget {
           ],
         ),
       ),
+        );
+      },
     );
   }
 

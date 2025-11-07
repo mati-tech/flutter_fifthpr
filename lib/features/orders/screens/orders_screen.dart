@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../state/orders_container.dart';
 import '../widgets/order_tile.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ordersContainer = Provider.of<OrdersContainer>(context);
-
-    return Scaffold(
+    return ListenableBuilder<OrdersContainer>(
+      getNotifier: () => getIt<OrdersContainer>(),
+      builder: (context, ordersContainer) {
+        return Scaffold(
       appBar: AppBar(
         title: const Text('My Orders'),
       ),
@@ -42,6 +44,8 @@ class OrdersScreen extends StatelessWidget {
           );
         },
       ),
+        );
+      },
     );
   }
 }

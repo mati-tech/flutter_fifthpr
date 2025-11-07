@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../state/favorites_container.dart';
 import '../widgets/favorite_tile.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final favoritesContainer = Provider.of<FavoritesContainer>(context);
-
-    return Scaffold(
+    return ListenableBuilder<FavoritesContainer>(
+      getNotifier: () => getIt<FavoritesContainer>(),
+      builder: (context, favoritesContainer) {
+        return Scaffold(
       appBar: AppBar(
         title: const Text('My Favorites'),
         actions: [
@@ -72,6 +74,8 @@ class FavoritesScreen extends StatelessWidget {
           ),
         ],
       ),
+        );
+      },
     );
   }
 

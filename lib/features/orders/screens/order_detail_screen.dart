@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../state/orders_container.dart';
 import '../models/order.dart';
 import '../../../shared/utils.dart';
 import '../../../shared/widgets/app_button.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   const OrderDetailScreen({super.key});
@@ -12,16 +13,18 @@ class OrderDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orderId = ModalRoute.of(context)!.settings.arguments as String;
-    final ordersContainer = Provider.of<OrdersContainer>(context);
-    final order = ordersContainer.getOrder(orderId);
+    return ListenableBuilder<OrdersContainer>(
+      getNotifier: () => getIt<OrdersContainer>(),
+      builder: (context, ordersContainer) {
+        final order = ordersContainer.getOrder(orderId);
 
-    if (order == null) {
-      return const Scaffold(
-        body: Center(child: Text('Order not found')),
-      );
-    }
+        if (order == null) {
+          return const Scaffold(
+            body: Center(child: Text('Order not found')),
+          );
+        }
 
-    return Scaffold(
+        return Scaffold(
       appBar: AppBar(
         title: const Text('Order Details'),
       ),
@@ -176,6 +179,8 @@ class OrderDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+        );
+      },
     );
   }
 }

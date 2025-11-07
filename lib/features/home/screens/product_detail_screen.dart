@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../../cart/state/cart_container.dart';
 import '../../favorites/state/favorites_container.dart';
 import '../models/product.dart';
 import '../../../shared/utils.dart';
 import '../../../shared/widgets/app_button.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
@@ -15,11 +16,14 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartContainer = Provider.of<CartContainer>(context);
-    final favoritesContainer = Provider.of<FavoritesContainer>(context);
-    final isFavorite = favoritesContainer.isProductFavorite(product.id);
-
-    return Scaffold(
+    return ListenableBuilder<CartContainer>(
+      getNotifier: () => getIt<CartContainer>(),
+      builder: (context, cartContainer) {
+        return ListenableBuilder<FavoritesContainer>(
+          getNotifier: () => getIt<FavoritesContainer>(),
+          builder: (context, favoritesContainer) {
+            final isFavorite = favoritesContainer.isProductFavorite(product.id);
+            return Scaffold(
       body: CustomScrollView(
         slivers: [
           // App Bar with back button and actions
@@ -283,6 +287,10 @@ class ProductDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+            );
+          },
+        );
+      },
     );
   }
 

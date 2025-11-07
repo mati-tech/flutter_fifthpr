@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../state/home_container.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class CategoryFilter extends StatelessWidget {
   const CategoryFilter({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final homeContainer = Provider.of<HomeContainer>(context);
-
-    return SizedBox(
+    return ListenableBuilder<HomeContainer>(
+      getNotifier: () => getIt<HomeContainer>(),
+      builder: (context, homeContainer) {
+        return SizedBox(
       height: 50,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -41,6 +43,8 @@ class CategoryFilter extends StatelessWidget {
           );
         },
       ),
+        );
+      },
     );
   }
 }

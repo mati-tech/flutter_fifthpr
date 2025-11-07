@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../state/profile_container.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../../../shared/widgets/app_text_field.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -21,17 +22,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    final profileContainer = Provider.of<ProfileContainer>(context, listen: false);
-    // final user = profileContainer.currentUser!;
+    final profileContainer = getIt<ProfileContainer>();
+    final user = profileContainer.currentUser;
 
-    // _nameController = TextEditingController(text: user.name);
-    // _phoneController = TextEditingController(text: user.phone);
-    // _addressController = TextEditingController(text: user.address);
-    // _dobController = TextEditingController(
-    //     text: user.dateOfBirth != null
-    //         ? '${user.dateOfBirth!.day}/${user.dateOfBirth!.month}/${user.dateOfBirth!.year}'
-    //         : ''
-    // );
+    _nameController = TextEditingController(text: user?.name ?? '');
+    _phoneController = TextEditingController(text: user?.phone ?? '');
+    _addressController = TextEditingController(text: user?.address ?? '');
+    _dobController = TextEditingController(
+        text: user?.dateOfBirth != null
+            ? '${user!.dateOfBirth!.day}/${user.dateOfBirth!.month}/${user.dateOfBirth!.year}'
+            : ''
+    );
   }
 
   @override
@@ -45,7 +46,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   void _saveProfile() async {
     if (_formKey.currentState!.validate()) {
-      final profileContainer = Provider.of<ProfileContainer>(context, listen: false);
+      final profileContainer = getIt<ProfileContainer>();
+
+      profileContainer.updateProfile(
+        name: _nameController.text,
+        phone: _phoneController.text,
+        address: _addressController.text,
+      );
 
       await profileContainer.saveProfileChanges();
 
@@ -60,8 +67,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final profileContainer = Provider.of<ProfileContainer>(context);
-    return Scaffold(
+    return ListenableBuilder<ProfileContainer>(
+      getNotifier: () => getIt<ProfileContainer>(),
+      builder: (context, profileContainer) {
+        return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
         actions: [
@@ -115,6 +124,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ),
       ),
+        );
+      },
     );
   }
 }

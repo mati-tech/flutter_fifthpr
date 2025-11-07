@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../state/cart_container.dart';
 import '../models/cart_item.dart';
 import '../../../shared/utils.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class CartTile extends StatelessWidget {
   final CartItem cartItem;
@@ -12,9 +13,10 @@ class CartTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartContainer = Provider.of<CartContainer>(context);
-
-    return Card(
+    return ListenableBuilder<CartContainer>(
+      getNotifier: () => getIt<CartContainer>(),
+      builder: (context, cartContainer) {
+        return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -103,6 +105,8 @@ class CartTile extends StatelessWidget {
           ],
         ),
       ),
+        );
+      },
     );
   }
 }

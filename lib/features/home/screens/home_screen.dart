@@ -173,7 +173,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:storelytech/features/home/screens/search_results_screen.dart';
 import 'package:storelytech/features/settings/screens/settings_screen.dart';
 import '../../favorites/screens/favorites_screen.dart';
@@ -184,6 +183,8 @@ import '../widgets/product_tile.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/category_filter.dart';
 import '../../auth/state/auth_container.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -224,10 +225,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final homeContainer = Provider.of<HomeContainer>(context);
-    final authContainer = Provider.of<AuthContainer>(context);
-
-    return Scaffold(
+    return ListenableBuilder<HomeContainer>(
+      getNotifier: () => getIt<HomeContainer>(),
+      builder: (context, homeContainer) {
+        return ListenableBuilder<AuthContainer>(
+          getNotifier: () => getIt<AuthContainer>(),
+          builder: (context, authContainer) {
+            return Scaffold(
       // The top part of the app with the profile app button and the search button to search for the products
       appBar: AppBar(
         title: const Text('StorelyTech'),
@@ -325,6 +329,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+            );
+          },
+        );
+      },
     );
   }
 }

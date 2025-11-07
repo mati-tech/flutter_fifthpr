@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../../../shared/app_theme.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../state/settings_container.dart';
 import '../../../features/auth/state/auth_container.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final settingsContainer = Provider.of<SettingsContainer>(context);
-    final authContainer = Provider.of<AuthContainer>(context);
-
-    return Scaffold(
+    return ListenableBuilder<SettingsContainer>(
+      getNotifier: () => getIt<SettingsContainer>(),
+      builder: (context, settingsContainer) {
+        return ListenableBuilder<AuthContainer>(
+          getNotifier: () => getIt<AuthContainer>(),
+          builder: (context, authContainer) {
+            return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
         // leading: IconButton(
@@ -189,6 +193,10 @@ class SettingsScreen extends StatelessWidget {
           ),
         ],
       ),
+            );
+          },
+        );
+      },
     );
   }
 

@@ -1,19 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart' hide ListenableBuilder;
 import '../../../shared/app_theme.dart';
 import '../state/cart_container.dart';
 import '../widgets/cart_tile.dart';
 import '../widgets/cart_summary.dart';
 import '../../../shared/widgets/empty_state.dart';
+import '../../../core/setup_di.dart';
+import '../../../core/widgets/listenable_builder.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final cartContainer = Provider.of<CartContainer>(context);
-
-    return Scaffold(
+    return ListenableBuilder<CartContainer>(
+      getNotifier: () => getIt<CartContainer>(),
+      builder: (context, cartContainer) {
+        return Scaffold(
       appBar: AppBar(
         title: const Text('Shopping Cart'),
         actions: [
@@ -57,6 +59,8 @@ class CartScreen extends StatelessWidget {
           ),
         ],
       ),
+        );
+      },
     );
   }
 
