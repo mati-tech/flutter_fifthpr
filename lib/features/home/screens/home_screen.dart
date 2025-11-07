@@ -206,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 1:
         // Navigator.pushNamed(context, '/favorites');
-        context.go('/favorites');
+        context.pushReplacement('/favorites');
         break;
       case 2:
         Navigator.pushNamed(context, '/cart');
@@ -237,14 +237,14 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.person_outline),
             onPressed: () {
               // Navigator.pushNamed(context, '/profile');
-              context.go('/profile');
+              context.pushReplacement('/profile');
             },
           ),
           //search
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              context.go('/search');
+              context.pushReplacement('/search');
             },
           ),
 
