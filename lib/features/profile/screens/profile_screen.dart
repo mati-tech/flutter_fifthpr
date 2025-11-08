@@ -16,33 +16,27 @@ class ProfileScreen extends StatelessWidget {
       getNotifier: () => getIt<ProfileContainer>(),
       builder: (context, profileContainer) {
         return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Profile'),
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
-        //   onPressed: () {
-        //     context.pop();
-        //   },
-        // ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              Navigator.pushNamed(context, '/edit-profile');
-            },
-          ),
+          appBar: AppBar(
+            title: const Text('My Profile'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                Navigator.pushNamed(context, '/edit-profile');
+              },
+            ),
 
         ],
       ),
-      body: profileContainer.currentUser == null
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-             padding: const EdgeInsets.all(16),
-              child: Column(
-                  children: [
-                    // Profile Header
-                    _buildProfileHeader(context, profileContainer.currentUser!),
-                    const SizedBox(height: 24),
+        body: profileContainer.currentUser == null
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+               padding: const EdgeInsets.all(16),
+                child: Column(
+                    children: [
+                      // Profile Header
+                      _buildProfileHeader(context, profileContainer.currentUser!),
+                      const SizedBox(height: 24),
 
                     // Personal Information
                     _buildPersonalInfoCard(profileContainer.currentUser!),

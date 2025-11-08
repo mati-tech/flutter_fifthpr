@@ -19,51 +19,44 @@ class SettingsScreen extends StatelessWidget {
           getNotifier: () => getIt<AuthContainer>(),
           builder: (context, authContainer) {
             return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
-        //   onPressed: () {
-        //     context.pop();
-        //   },
-        // ),
-
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          // Profile Section
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              appBar: AppBar(
+                title: const Text('Settings'),
+              ),
+              body: ListView(
+                padding: const EdgeInsets.all(16),
                 children: [
-                  const Text(
-                    'Profile',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  if (authContainer.currentUser != null) ...[
-                    ListTile(
-                      leading: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: AppTheme.primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.white,
+                  // Profile Section
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                        'Profile',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      title: Text(
-                        authContainer.currentUser!.name,
-                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      const SizedBox(height: 12),
+                      if (authContainer.currentUser != null) ...[
+                        ListTile(
+                          leading: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                          ),
+                          title: Text(
+                            authContainer.currentUser!.name,
+                            style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                       subtitle: Text(authContainer.currentUser!.email),
                     ),

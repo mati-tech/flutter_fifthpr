@@ -16,17 +16,17 @@ class CartScreen extends StatelessWidget {
       getNotifier: () => getIt<CartContainer>(),
       builder: (context, cartContainer) {
         return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopping Cart'),
-        actions: [
-          if (cartContainer.cartItems.isNotEmpty)
-            IconButton(
-              icon: const Icon(Icons.delete_outline),
-              onPressed: () {
-                _showClearConfirmationDialog(context, cartContainer);
-              },
-            ),
-        ],
+          appBar: AppBar(
+            title: const Text('Shopping Cart'),
+            actions: [
+              if (cartContainer.cartItems.isNotEmpty)
+                IconButton(
+                  icon: const Icon(Icons.delete_outline),
+                  onPressed: () {
+                    _showClearConfirmationDialog(context, cartContainer);
+                  },
+                ),
+            ],
       ),
       body: cartContainer.cartItems.isEmpty
           ? EmptyState(

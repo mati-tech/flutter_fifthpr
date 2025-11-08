@@ -232,103 +232,102 @@ class _HomeScreenState extends State<HomeScreen> {
           getNotifier: () => getIt<AuthContainer>(),
           builder: (context, authContainer) {
             return Scaffold(
-      // The top part of the app with the profile app button and the search button to search for the products
-      appBar: AppBar(
-        title: const Text('StorelyTech'),
-        actions: [
-          //profile
-          IconButton(
-            icon: const Icon(Icons.person_outline),
-            onPressed: () {
-              // Navigator.pushNamed(context, '/profile');
-              context.pushReplacement('/profile');
-            },
-          ),
+            appBar: AppBar(
+              title: const Text('StorelyTech'),
+              actions: [
+                //profile
+                IconButton(
+                  icon: const Icon(Icons.person_outline),
+                  onPressed: () {
+                    // Navigator.pushNamed(context, '/profile');
+                    context.pushReplacement('/profile');
+                  },
+                ),
           //search
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              context.pushReplacement('/search');
-            },
-          ),
+              IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  context.pushReplacement('/search');
+                },
+              ),
 
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Search Bar
-            const SearchBarWidget(),
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Search Bar
+                  const SearchBarWidget(),
 
-            // Category Filter
-            const CategoryFilter(),
+                  // Category Filter
+                  const CategoryFilter(),
 
-            // Featured Section
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Featured Products',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+                  // Featured Section
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'Featured Products',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
 
-            SizedBox(
-              height: 280,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: homeContainer.featuredProducts.length,
-                itemBuilder: (context, index) {
-                  return ProductTile(product: homeContainer.featuredProducts[index]);
-                },
-              ),
-            ),
-            const SizedBox(height: 24),
+                  SizedBox(
+                    height: 280,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: homeContainer.featuredProducts.length,
+                      itemBuilder: (context, index) {
+                        return ProductTile(product: homeContainer.featuredProducts[index]);
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 24),
 
-            // All Products Section
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'All Products',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            ProductGrid(products: homeContainer.filteredProducts),
+                  // All Products Section
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'All Products',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  ProductGrid(products: homeContainer.filteredProducts),
 
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
-            label: 'Basket',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
-            label: 'Settings',
-          ),
-        ],
-      ),
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              selectedItemColor: Colors.blueAccent,
+              unselectedItemColor: Colors.grey,
+              onTap: _onItemTapped,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_outlined),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite_border),
+                  label: 'Favorites',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_cart_outlined),
+                  label: 'Basket',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings_outlined),
+                  label: 'Settings',
+                ),
+              ],
+            ),
             );
           },
         );
