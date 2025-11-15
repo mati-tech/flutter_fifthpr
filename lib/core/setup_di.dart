@@ -9,18 +9,18 @@ import '../../features/settings/state/settings_container.dart';
 
 final getIt = GetIt.instance;
 Future<void> setupDI() async {
+
   getIt.registerLazySingleton<AuthContainer>(() => AuthContainer());
   getIt.registerLazySingleton<CartContainer>(() => CartContainer());
   getIt.registerLazySingleton<FavoritesContainer>(() => FavoritesContainer());
   getIt.registerLazySingleton<HomeContainer>(() => HomeContainer());
   getIt.registerLazySingleton<OrdersContainer>(() => OrdersContainer());
   getIt.registerLazySingleton<SettingsContainer>(() => SettingsContainer());
-  getIt.registerFactory<FavoritesContainer>(() => FavoritesContainer());
   getIt.registerLazySingleton<ProfileContainer>(() {
     final profileContainer = ProfileContainer();
     profileContainer.initializeWithSampleUser();
     return profileContainer;
   });
-  // getIt.allowReassignment = true;
+  getIt.allowReassignment = true;
 }
 
