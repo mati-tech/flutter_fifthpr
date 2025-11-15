@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../shared/app_theme.dart';
-import '../state/cart_container.dart';
+import '../providers/cart_provider.dart';
 import '../models/cart_item.dart';
 import '../../../shared/utils.dart';
-import '../../../core/setup_di.dart';
-import '../../../core/widgets/listenable_builder.dart';
 
-class CartTile extends StatelessWidget {
+class CartTile extends ConsumerWidget {
   final CartItem cartItem;
 
   const CartTile({super.key, required this.cartItem});
 
   @override
-  Widget build(BuildContext context) {
-    return ContainerListenableBuilder<CartContainer>(
-      getNotifier: () => getIt<CartContainer>(),
-      builder: (context, cartContainer) {
-        return Card(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -65,7 +61,9 @@ class CartTile extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.remove, size: 20),
                         onPressed: () {
-                          cartContainer.decrementQuantity(cartItem.product.id);
+                          ref
+                              .read(cartNotifierProvider.notifier)
+                              .decrementQuantity(cartItem.product.id);
                         },
                         style: IconButton.styleFrom(
                           backgroundColor: AppTheme.backgroundColor,
@@ -84,7 +82,9 @@ class CartTile extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.add, size: 20),
                         onPressed: () {
-                          cartContainer.incrementQuantity(cartItem.product.id);
+                          ref
+                              .read(cartNotifierProvider.notifier)
+                              .incrementQuantity(cartItem.product.id);
                         },
                         style: IconButton.styleFrom(
                           backgroundColor: AppTheme.backgroundColor,
@@ -92,9 +92,12 @@ class CartTile extends StatelessWidget {
                       ),
                       const Spacer(),
                       IconButton(
-                        icon: const Icon(Icons.delete_outline, color: AppTheme.errorColor),
+                        icon: const Icon(Icons.delete_outline,
+                            color: AppTheme.errorColor),
                         onPressed: () {
-                          cartContainer.removeFromCart(cartItem.product.id);
+                          ref
+                              .read(cartNotifierProvider.notifier)
+                              .removeFromCart(cartItem.product.id);
                         },
                       ),
                     ],
@@ -105,8 +108,6 @@ class CartTile extends StatelessWidget {
           ],
         ),
       ),
-        );
-      },
     );
   }
 }

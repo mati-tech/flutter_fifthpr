@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import '../state/profile_container.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/profile_provider.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../../../shared/widgets/app_text_field.dart';
-import '../../../core/setup_di.dart';
-import '../../../core/widgets/listenable_builder.dart';
 
-class EditProfileScreen extends StatefulWidget {
+class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
 
   @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
+  ConsumerState<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
+class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _phoneController;
@@ -22,8 +21,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    final profileContainer = getIt<ProfileContainer>();
-    final user = profileContainer.currentUser;
+    final profileState = ref.read(profileNotifierProvider);
+    final user = profileState.currentUser;
 
     _nameController = TextEditingController(text: user?.name ?? '');
     _phoneController = TextEditingController(text: user?.phone ?? '');
@@ -46,15 +45,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   void _saveProfile() async {
     if (_formKey.currentState!.validate()) {
-      final profileContainer = getIt<ProfileContainer>();
-
-      profileContainer.updateProfile(
+      ref.read(profileNotifierProvider.notifier).updateProfile(
         name: _nameController.text,
         phone: _phoneController.text,
         address: _addressController.text,
       );
 
-      await profileContainer.saveProfileChanges();
+      await ref.read(profileNotifierProvider.notifier).saveProfileChanges();
 
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
@@ -67,10 +64,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ContainerListenableBuilder<ProfileContainer>(
-      getNotifier: () => getIt<ProfileContainer>(),
-      builder: (context, profileContainer) {
-        return Scaffold(
+    final profileState = ref.watch(profileNotifierProvider);
+
+    return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
         actions: [
@@ -106,7 +102,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               AppTextField(
                 label: 'Address',
                 controller: _addressController,
-
               ),
               const SizedBox(height: 16),
               AppTextField(
@@ -118,14 +113,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               AppButton(
                 text: 'Save Changes',
                 onPressed: _saveProfile,
-                isLoading: profileContainer.isLoading,
+                isLoading: profileState.isLoading,
               ),
             ],
           ),
         ),
       ),
-        );
-      },
     );
   }
 }

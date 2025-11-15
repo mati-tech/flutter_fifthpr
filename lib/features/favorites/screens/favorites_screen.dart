@@ -1,90 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../shared/app_theme.dart';
-import '../state/favorites_container.dart';
+import '../providers/favorites_provider.dart';
 import '../widgets/favorite_tile.dart';
 import '../../../shared/widgets/empty_state.dart';
-import '../../../core/setup_di.dart';
-import '../../../core/widgets/listenable_builder.dart';
 
-class FavoritesScreen extends StatelessWidget {
+class FavoritesScreen extends ConsumerWidget {
   const FavoritesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ContainerListenableBuilder<FavoritesContainer>(
-      getNotifier: () => getIt<FavoritesContainer>(),
-      builder: (context, favoritesContainer) {
-        return Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoritesState = ref.watch(favoritesNotifierProvider);
+
+    return Scaffold(
       appBar: AppBar(
         title: const Text('My Favorites'),
         actions: [
-          if (favoritesContainer.favorites.isNotEmpty)
+          if (favoritesState.favorites.isNotEmpty)
             IconButton(
               icon: const Icon(Icons.delete_outline),
               onPressed: () {
-                _showClearConfirmationDialog(context, favoritesContainer);
+                _showClearConfirmationDialog(context, ref);
               },
             ),
         ],
       ),
-      body: favoritesContainer.favorites.isEmpty
+      body: favoritesState.favorites.isEmpty
           ? EmptyState(
-        title: 'No Favorites',
-        message: 'Your favorite products will appear here',
-        icon: Icons.favorite_border,
-        buttonText: 'Browse Products',
-        onButtonPressed: () {
-          // Navigate to home
-        },
-      )
+              title: 'No Favorites',
+              message: 'Your favorite products will appear here',
+              icon: Icons.favorite_border,
+              buttonText: 'Browse Products',
+              onButtonPressed: () {
+                // Navigate to home
+              },
+            )
           : Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
               children: [
-                Text(
-                  '${favoritesContainer.favoritesCount} items',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppTheme.secondaryColor,
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${favoritesState.favoritesCount} items',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: AppTheme.secondaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: favoritesState.favorites.length,
+                    itemBuilder: (context, index) {
+                      final favorite = favoritesState.favorites[index];
+                      return FavoriteTile(
+                        favorite: favorite,
+                        onRemove: () {
+                          ref
+                              .read(favoritesNotifierProvider.notifier)
+                              .removeFromFavorites(favorite.product.id);
+                        },
+                        onTap: () {
+                          // Navigate to product detail
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: favoritesContainer.favorites.length,
-              itemBuilder: (context, index) {
-                final favorite = favoritesContainer.favorites[index];
-                return FavoriteTile(
-                  favorite: favorite,
-                  onRemove: () {
-                    favoritesContainer.removeFromFavorites(favorite.product.id);
-                  },
-                  onTap: () {
-                    // Navigate to product detail
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-        );
-      },
     );
   }
 
-  void _showClearConfirmationDialog(BuildContext context, FavoritesContainer container) {
+  void _showClearConfirmationDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Clear All Favorites?'),
-        content: const Text('This will remove all products from your favorites list.'),
+        content: const Text(
+            'This will remove all products from your favorites list.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -92,7 +90,7 @@ class FavoritesScreen extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              container.clearFavorites();
+              ref.read(favoritesNotifierProvider.notifier).clearFavorites();
               Navigator.pop(context);
             },
             child: const Text(

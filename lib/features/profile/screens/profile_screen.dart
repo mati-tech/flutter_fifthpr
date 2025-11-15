@@ -1,54 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../auth/models/user.dart';
-import '../state/profile_container.dart';
+import '../providers/profile_provider.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../../../shared/app_theme.dart';
-import '../../../core/setup_di.dart';
-import '../../../core/widgets/listenable_builder.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ContainerListenableBuilder<ProfileContainer>(
-      getNotifier: () => getIt<ProfileContainer>(),
-      builder: (context, profileContainer) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('My Profile'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                Navigator.pushNamed(context, '/edit-profile');
-              },
-            ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileState = ref.watch(profileNotifierProvider);
 
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Profile'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              Navigator.pushNamed(context, '/edit-profile');
+            },
+          ),
         ],
       ),
-        body: profileContainer.currentUser == null
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-               padding: const EdgeInsets.all(16),
-                child: Column(
-                    children: [
-                      // Profile Header
-                      _buildProfileHeader(context, profileContainer.currentUser!),
-                      const SizedBox(height: 24),
+      body: profileState.currentUser == null
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  // Profile Header
+                  _buildProfileHeader(context, profileState.currentUser!),
+                  const SizedBox(height: 24),
 
-                    // Personal Information
-                    _buildPersonalInfoCard(profileContainer.currentUser!),
-                    const SizedBox(height: 16),
+                  // Personal Information
+                  _buildPersonalInfoCard(profileState.currentUser!),
+                  const SizedBox(height: 16),
 
-                    // Account Settings
-                    _buildAccountSettingsCard(context),
-          ],
-        ),
-      ),
-        );
-      },
+                  // Account Settings
+                  _buildAccountSettingsCard(context),
+                ],
+              ),
+            ),
     );
   }
 
