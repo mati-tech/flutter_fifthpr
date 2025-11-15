@@ -12,7 +12,7 @@ class CartScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cartState = ref.watch(cartNotifierProvider);
-    final cartNotifier = ref.read(cartNotifierProvider.notifier);
+    // final cartNotifier = ref.read(cartNotifierProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
