@@ -18,14 +18,14 @@ class SearchResultsScreen extends StatelessWidget {
       getNotifier: () => getIt<HomeContainer>(),
       builder: (context, homeContainer) {
         return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search your electronics...'),
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
-        //   onPressed: () {
-        //     context.pop();
-        //   },
-        // ),
+          appBar: AppBar(
+            title: const Text('Search your electronics...'),
+            // leading: IconButton(
+            //   icon: const Icon(Icons.arrow_back, color: Colors.black),
+            //   onPressed: () {
+            //     context.pop();
+            //   },
+            // ),
 
         actions: [
           if (homeContainer.searchQuery.isNotEmpty || homeContainer.selectedCategory != 'All')
@@ -37,18 +37,18 @@ class SearchResultsScreen extends StatelessWidget {
             ),
         ],
       ),
-      body: Column(
-        children: [
-          const SearchBarWidget(autoFocus: true),
-          const CategoryFilter(),
-          const SizedBox(height: 16),
-          // Search Results
-          Expanded(
-            child: homeContainer.filteredProducts.isEmpty
-                ? _buildEmptyState(homeContainer)
-                : _buildSearchResults(homeContainer),
-          ),
-        ],
+          body: Column(
+            children: [
+              const SearchBarWidget(autoFocus: true),
+              const CategoryFilter(),
+              const SizedBox(height: 16),
+              // Search Results
+              Expanded(
+                child: homeContainer.filteredProducts.isEmpty
+                    ? _buildEmptyState(homeContainer)
+                    : _buildSearchResults(homeContainer),
+              ),
+            ],
       ),
         );
       },
@@ -118,3 +118,5 @@ class SearchResultsScreen extends StatelessWidget {
     );
   }
 }
+
+
