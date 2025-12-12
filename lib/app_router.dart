@@ -8,7 +8,7 @@ import 'features/cart/screens/cart_screen.dart';
 import 'features/favorites/screens/favorites_screen.dart';
 import 'features/home/models/product.dart';
 import 'features/home/screens/home_screen.dart';
-import 'features/home/screens/product_detail_screen.dart';
+import 'features/home/screens/product_detail_screen.dart' hide ProductDetailScreen;
 import 'features/home/screens/search_results_screen.dart';
 
 import 'features/orders/screens/order_detail_screen.dart';

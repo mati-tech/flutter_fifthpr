@@ -18,25 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
 
-  // void _login() async {
-    // if (_formKey.currentState!.validate()) {
-    //   setState(() {
-    //     _isLoading = true;
-    //   });
-    //
-    //   // Simulate API call
-    //   await Future.delayed(const Duration(seconds: 2));
-    //
-    //   setState(() {
-    //     _isLoading = false;
-    //   });
-    //
-    //   // Navigate to home on success
-    //
-    // }
-    // Navigator.pushReplacementNamed(context, '/home');
 
-  // }
   void _login() async {
     context.go('/home');
     // Navigator.pushReplacementNamed(context, '/home');

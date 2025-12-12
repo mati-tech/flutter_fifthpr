@@ -15,7 +15,6 @@ class HomeNotifier extends _$HomeNotifier {
       selectedCategory: 'All',
     );
   }
-
   List<Product> _getInitialProducts() {
     return [
       Product(
