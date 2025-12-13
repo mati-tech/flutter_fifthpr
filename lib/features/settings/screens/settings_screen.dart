@@ -302,8 +302,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../shared/app_theme.dart';
 import '../../../shared/widgets/app_button.dart';
-import '../providers/settings_provider.dart';
+// import '../providers/settings_notifier.dart';
 import '../../auth/providers/auth_provider.dart';
+import '../providers/settings_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -312,6 +313,7 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settingsState = ref.watch(settingsNotifierProvider);
     final authState = ref.watch(authNotifierProvider);
+    final settingsNotifier = ref.read(settingsNotifierProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -389,31 +391,13 @@ class SettingsScreen extends ConsumerWidget {
                     title: const Text('Push Notifications'),
                     subtitle: const Text('Receive order updates and promotions'),
                     value: settingsState.notificationsEnabled,
-                    onChanged: (value) => ref.read(settingsNotifierProvider.notifier)
-                        .toggleNotifications(value),
+                    onChanged: (value) => settingsNotifier.toggleNotifications(value),
                   ),
                   SwitchListTile(
                     title: const Text('Dark Mode'),
                     subtitle: const Text('Use dark theme'),
-                    value: settingsState.darkModeEnabled,
-                    onChanged: (value) => ref.read(settingsNotifierProvider.notifier)
-                        .toggleDarkMode(value),
-                  ),
-                  ListTile(
-                    title: const Text('Currency'),
-                    subtitle: Text(settingsState.currency),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                    onTap: () {
-                      _showCurrencyDialog(context, ref);
-                    },
-                  ),
-                  ListTile(
-                    title: const Text('Language'),
-                    subtitle: Text(settingsState.language),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                    onTap: () {
-                      _showLanguageDialog(context, ref);
-                    },
+                    value: settingsState.isDarkMode,
+                    onChanged: (value) => settingsNotifier.toggleDarkMode(value),
                   ),
                 ],
               ),
@@ -485,86 +469,6 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  void _showCurrencyDialog(BuildContext context, WidgetRef ref) {
-    final currentCurrency = ref.read(settingsNotifierProvider).currency;
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Select Currency'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: const Text('USD - US Dollar'),
-              trailing: currentCurrency == 'USD' ? const Icon(Icons.check) : null,
-              onTap: () {
-                ref.read(settingsNotifierProvider.notifier).setCurrency('USD');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('EUR - Euro'),
-              trailing: currentCurrency == 'EUR' ? const Icon(Icons.check) : null,
-              onTap: () {
-                ref.read(settingsNotifierProvider.notifier).setCurrency('EUR');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('GBP - British Pound'),
-              trailing: currentCurrency == 'GBP' ? const Icon(Icons.check) : null,
-              onTap: () {
-                ref.read(settingsNotifierProvider.notifier).setCurrency('GBP');
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showLanguageDialog(BuildContext context, WidgetRef ref) {
-    final currentLanguage = ref.read(settingsNotifierProvider).language;
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Select Language'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: const Text('English'),
-              trailing: currentLanguage == 'English' ? const Icon(Icons.check) : null,
-              onTap: () {
-                ref.read(settingsNotifierProvider.notifier).setLanguage('English');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Spanish'),
-              trailing: currentLanguage == 'Spanish' ? const Icon(Icons.check) : null,
-              onTap: () {
-                ref.read(settingsNotifierProvider.notifier).setLanguage('Spanish');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('French'),
-              trailing: currentLanguage == 'French' ? const Icon(Icons.check) : null,
-              onTap: () {
-                ref.read(settingsNotifierProvider.notifier).setLanguage('French');
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
       ),
     );
   }
