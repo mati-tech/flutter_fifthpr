@@ -38,7 +38,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/favorites',
-      builder: (context, state) => const FavoritesScreen(),
+      builder: (context, state) =>  FavoritesScreen(),
     ),
     GoRoute(
       path: '/orders',

@@ -1,91 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../shared/app_theme.dart';
-import '../state/home_container.dart';
+import '../providers/home_provider.dart';
 import '../widgets/product_grid.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/category_filter.dart';
 import '../../../shared/widgets/empty_state.dart';
-import '../../../core/setup_di.dart';
-import '../../../core/widgets/listenable_builder.dart';
 
-class SearchResultsScreen extends StatelessWidget {
+class SearchResultsScreen extends ConsumerWidget {
   const SearchResultsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ContainerListenableBuilder<HomeContainer>(
-      getNotifier: () => getIt<HomeContainer>(),
-      builder: (context, homeContainer) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Search your electronics...'),
-            // leading: IconButton(
-            //   icon: const Icon(Icons.arrow_back, color: Colors.black),
-            //   onPressed: () {
-            //     context.pop();
-            //   },
-            // ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homeState = ref.watch(homeNotifierProvider);
+    final homeNotifier = ref.read(homeNotifierProvider.notifier);
 
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Search your electronics...'),
         actions: [
-          if (homeContainer.searchQuery.isNotEmpty || homeContainer.selectedCategory != 'All')
+          if (homeState.isSearchActive)
             IconButton(
               icon: const Icon(Icons.clear_all),
               onPressed: () {
-                homeContainer.clearFilters();
+                homeNotifier.clearFilters();
               },
             ),
         ],
       ),
-          body: Column(
-            children: [
-              const SearchBarWidget(autoFocus: true),
-              const CategoryFilter(),
-              const SizedBox(height: 16),
-              // Search Results
-              Expanded(
-                child: homeContainer.filteredProducts.isEmpty
-                    ? _buildEmptyState(homeContainer)
-                    : _buildSearchResults(homeContainer),
-              ),
-            ],
+      body: Column(
+        children: [
+          const SearchBarWidget(autoFocus: true),
+          const CategoryFilter(),
+          const SizedBox(height: 16),
+          // Search Results
+          Expanded(
+            child: homeState.filteredProducts.isEmpty
+                ? _buildEmptyState(homeState, homeNotifier)
+                : _buildSearchResults(homeState, homeNotifier),
+          ),
+        ],
       ),
-        );
-      },
     );
   }
 
-  Widget _buildEmptyState(HomeContainer homeContainer) {
-    if (homeContainer.searchQuery.isEmpty && homeContainer.selectedCategory == 'All') {
+  Widget _buildEmptyState(HomeState homeState, HomeNotifier homeNotifier) {
+    if (homeState.searchQuery.isEmpty && homeState.selectedCategory == 'All') {
       return const EmptyState(
         title: 'Search Products',
         message: 'Use the search bar above to find products',
         icon: Icons.search,
       );
-    } else if (homeContainer.searchQuery.isEmpty) {
+    } else if (homeState.searchQuery.isEmpty) {
       return EmptyState(
-        title: 'No Products in ${homeContainer.selectedCategory}',
+        title: 'No Products in ${homeState.selectedCategory}',
         message: 'Try selecting a different category',
         icon: Icons.category,
         buttonText: 'Clear Filters',
         onButtonPressed: () {
-          homeContainer.clearFilters();
+          homeNotifier.clearFilters();
         },
       );
     } else {
       return EmptyState(
-        title: 'No Results for "${homeContainer.searchQuery}"',
+        title: 'No Results for "${homeState.searchQuery}"',
         message: 'Try adjusting your search or filters',
         icon: Icons.search_off,
         buttonText: 'Clear Search',
         onButtonPressed: () {
-          homeContainer.clearFilters();
+          homeNotifier.clearFilters();
         },
       );
     }
   }
 
-  Widget _buildSearchResults(HomeContainer homeContainer) {
+  Widget _buildSearchResults(HomeState homeState, HomeNotifier homeNotifier) {
     return Column(
       children: [
         Padding(
@@ -94,16 +84,16 @@ class SearchResultsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${homeContainer.filteredProducts.length} products found',
+                '${homeState.searchResultsCount} products found',
                 style: TextStyle(
                   color: AppTheme.secondaryColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              if (homeContainer.searchQuery.isNotEmpty || homeContainer.selectedCategory != 'All')
+              if (homeState.isSearchActive)
                 TextButton(
                   onPressed: () {
-                    homeContainer.clearFilters();
+                    homeNotifier.clearFilters();
                   },
                   child: const Text('Clear All'),
                 ),
@@ -112,11 +102,9 @@ class SearchResultsScreen extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Expanded(
-          child: ProductGrid(products: homeContainer.filteredProducts),
+          child: ProductGrid(products: homeState.filteredProducts),
         ),
       ],
     );
   }
 }
-
-

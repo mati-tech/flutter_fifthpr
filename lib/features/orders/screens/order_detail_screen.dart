@@ -1,32 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../shared/app_theme.dart';
-import '../state/orders_container.dart';
+import '../providers/orders_provider.dart';
 import '../models/order.dart';
 import '../../../shared/utils.dart';
 import '../../../shared/widgets/app_button.dart';
-import '../../../core/setup_di.dart';
-import '../../../core/widgets/listenable_builder.dart';
 
-class OrderDetailScreen extends StatelessWidget {
-  const OrderDetailScreen({super.key});
+class OrderDetailScreen extends ConsumerWidget {
+  final String orderId;
+
+  const OrderDetailScreen({
+    super.key,
+    required this.orderId,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final orderId = ModalRoute.of(context)!.settings.arguments as String;
-    return ContainerListenableBuilder<OrdersContainer>(
-      getNotifier: () => getIt<OrdersContainer>(),
-      builder: (context, ordersContainer) {
-        final order = ordersContainer.getOrder(orderId);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ordersState = ref.watch(ordersNotifierProvider);
+    final ordersNotifier = ref.read(ordersNotifierProvider.notifier);
 
-        if (order == null) {
-          return const Scaffold(
-            body: Center(child: Text('Order not found')),
-          );
-        }
+    // Find the order by ID
+    final order = ordersState.orders.firstWhere(
+          (order) => order.id == orderId,
+      orElse: () => Order(
+        id: '',
+        items: [],
+        totalAmount: 0,
+        orderDate: DateTime.now(),
+        status: OrderStatus.pending,
+        shippingAddress: '',
+      ),
+    );
 
-        return Scaffold(
+    // If order not found
+    if (order.id.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Order Details')),
+        body: const Center(
+          child: Text(
+            'Order not found',
+            style: TextStyle(fontSize: 18, color: AppTheme.secondaryColor),
+          ),
+        ),
+      );
+    }
+
+    return Scaffold(
       appBar: AppBar(
         title: const Text('Order Details'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -85,6 +110,7 @@ class OrderDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+
             // Shipping Address
             const Text(
               'Shipping Address',
@@ -101,6 +127,7 @@ class OrderDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+
             // Order Items
             const Text(
               'Order Items',
@@ -156,22 +183,23 @@ class OrderDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+
             // Actions
             if (order.status == OrderStatus.pending) ...[
               AppButton(
                 text: 'Cancel Order',
                 onPressed: () {
-                  // Implement cancel order
+                  _showCancelOrderDialog(context, order, ordersNotifier);
                 },
                 backgroundColor: AppTheme.errorColor,
               ),
               const SizedBox(height: 8),
             ],
-            if (order.trackingNumber != null) ...[
+            if (order.trackingNumber != null && order.trackingNumber!.isNotEmpty) ...[
               AppButton(
                 text: 'Track Package',
                 onPressed: () {
-                  // Implement tracking
+                  _openTracking(context, order.trackingNumber!);
                 },
               ),
               const SizedBox(height: 8),
@@ -179,8 +207,58 @@ class OrderDetailScreen extends StatelessWidget {
           ],
         ),
       ),
-        );
-      },
+    );
+  }
+
+  void _showCancelOrderDialog(
+      BuildContext context,
+      Order order,
+      OrdersNotifier ordersNotifier,
+      ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cancel Order?'),
+        content: const Text('Are you sure you want to cancel this order?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Update order status to cancelled
+              ordersNotifier.updateOrderStatus(order.id, OrderStatus.cancelled);
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Order cancelled successfully'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+            child: const Text(
+              'Yes, Cancel',
+              style: TextStyle(color: AppTheme.errorColor),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _openTracking(BuildContext context, String trackingNumber) {
+    // In a real app, you would open tracking URL
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Tracking number: $trackingNumber'),
+        action: SnackBarAction(
+          label: 'Copy',
+          onPressed: () {
+            // Copy to clipboard
+          },
+        ),
+      ),
     );
   }
 }
