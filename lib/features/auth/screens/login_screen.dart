@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../shared/app_theme.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../../../shared/widgets/app_text_field.dart';
@@ -13,6 +14,19 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    _debugCheckTheme();
+  }
+
+  Future<void> _debugCheckTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isDark = prefs.getBool('storelytech_app_theme');
+    print('DEBUG: Saved theme value in SharedPreferences: $isDark');
+    print('DEBUG: File location should be in app data directory');
+  }
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -23,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
     context.go('/home');
     // Navigator.pushReplacementNamed(context, '/home');
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
