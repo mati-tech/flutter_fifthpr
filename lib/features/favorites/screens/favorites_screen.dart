@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/tempFavorites.dart';
+import '../../../shared/tempFavorites.dart';
 import '../../../shared/app_theme.dart';
 import '../models/favorite_item.dart';
 import '../providers/favorites_provider.dart';
