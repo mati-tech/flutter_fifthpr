@@ -17,6 +17,7 @@ class ProfileNotifier extends _$ProfileNotifier {
     );
     return ProfileState(
       currentUser: sampleUser,
+
       isLoading: false,
     );
   }
