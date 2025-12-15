@@ -44,10 +44,10 @@ final GoRouter router = GoRouter(
       path: '/home',
       builder: (context, state) => const HomeScreen(),
     ),
-    GoRoute(
-      path: '/cart',
-      builder: (context, state) => const CartScreen(),
-    ),
+    // GoRoute(
+    //   path: '/cart',
+    //   builder: (context, state) => const CartScreen(),
+    // ),
     GoRoute(
       path: '/favorites',
       builder: (context, state) =>  FavoritesScreen(),
@@ -60,10 +60,10 @@ final GoRouter router = GoRouter(
       path: '/search',
       builder: (context, state) => const SearchResultsScreen(),
     ),
-    GoRoute(
-      path: '/settings',
-      builder: (context, state) => const SettingsScreen(),
-    ),
+    // GoRoute(
+    //   path: '/settings',
+    //   builder: (context, state) => const SettingsScreen(),
+    // ),
     GoRoute(
       path: '/profile',
       builder: (context, state) => const ProfileScreen(),
@@ -79,13 +79,13 @@ final GoRouter router = GoRouter(
     //     return OrderDetailScreen(orderId: orderId);
     //   },
     // ),
-    GoRoute(
-      path: '/product_detail',
-      builder: (context, state) {
-        final product = state.extra as Product; // Получаем весь объект
-        return ProductDetailScreen(product: product);
-      },
-    ),
+    // GoRoute(
+    //   path: '/product_detail',
+    //   builder: (context, state) {
+    //     final product = state.extra as Product; // Получаем весь объект
+    //     // return ProductDetailScreen(product: product);
+    //   },
+    // ),
     // GoRoute(
     //   path: '/',
     //   redirect: (context, state) => '/login',

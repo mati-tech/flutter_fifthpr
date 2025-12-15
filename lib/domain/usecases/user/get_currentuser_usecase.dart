@@ -1,23 +1,14 @@
+// lib/domain/usecases/auth/get_current_user_usecase.dart
 import '../../../core/models/user.dart';
+import '../../interfaces/repositories/auth_repository.dart';
+// import '../../entities/user.dart';
 
-import '../../interfaces/repositories/user_repository.dart';
+class GetCurrentUserUseCase {
+  final AuthRepository repository;
 
-/// UseCase для получения профиля текущего пользователя
-class GetProfileUseCase {
-  final UserRepository _repository;
+  GetCurrentUserUseCase(this.repository);
 
-  GetProfileUseCase(this._repository);
-
-  /// Получить профиль текущего пользователя
-  ///
-  /// Возвращает [User] или null, если пользователь не авторизован
   Future<User?> execute() async {
-    try {
-      return await _repository.getCurrentUser();
-    } catch (e) {
-      // Логируем ошибку, но не выбрасываем дальше
-      print('GetProfileUseCase error: $e');
-      return null;
-    }
+    return await repository.getCurrentUser();
   }
 }

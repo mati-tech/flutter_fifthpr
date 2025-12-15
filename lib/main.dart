@@ -30,7 +30,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Слушаем изменения темы
-    final settings = ref.watch(settingsNotifierProvider);
+    // final settings = ref.watch(settingsNotifierProvider);
 
     return MaterialApp.router(
       title: 'StorelyTech',
@@ -38,7 +38,7 @@ class MyApp extends ConsumerWidget {
       theme: _buildLightTheme(),
       darkTheme: _buildDarkTheme(),
       // Выбираем режим темы на основе isDarkMode
-      themeMode: settings.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      // themeMode: settings.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       routerConfig: router, // Ваш роутер
       debugShowCheckedModeBanner: false,
     );

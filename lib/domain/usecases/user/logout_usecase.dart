@@ -1,23 +1,12 @@
-import '../../interfaces/repositories/user_repository.dart';
-// import '../interfaces/repositories/user_repository.dart';
+// lib/domain/usecases/auth/logout_usecase.dart
+import '../../interfaces/repositories/auth_repository.dart';
 
-/// UseCase для выхода из системы
 class LogoutUseCase {
-  final UserRepository _repository;
+  final AuthRepository repository;
 
-  LogoutUseCase(this._repository);
+  LogoutUseCase(this.repository);
 
-  /// Выполнить выход из системы
-  ///
-  /// Возвращает [true] если выход выполнен успешно
-  Future<bool> execute() async {
-    try {
-      await _repository.logout();
-      return true;
-    } catch (e) {
-      // Даже если произошла ошибка, считаем выход выполненным
-      print('LogoutUseCase error: $e');
-      return true;
-    }
+  Future<void> execute() async {
+    await repository.logout();
   }
 }

@@ -1,53 +1,27 @@
+// lib/domain/usecases/auth/login_usecase.dart
 import '../../../core/models/user.dart';
-import '../../interfaces/repositories/user_repository.dart';
+import '../../interfaces/repositories/auth_repository.dart';
+// import '../../entities/user.dart';
 
-
-/// UseCase для входа в систему
 class LoginUseCase {
-  final UserRepository _repository;
+  final AuthRepository repository;
 
-  LoginUseCase(this._repository);
+  LoginUseCase(this.repository);
 
-  /// Выполнить вход
-  ///
-  /// [email] - email пользователя
-  /// [password] - пароль
-  ///
-  /// Возвращает авторизованного пользователя
-  ///
-  /// Исключения:
-  /// - [ArgumentError] если email или пароль пустые
-  /// - [Exception] если email или пароль неверные
   Future<User> execute({
     required String email,
     required String password,
   }) async {
-    // Валидация входных данных
-    if (email.isEmpty) {
-      throw ArgumentError('Email cannot be empty');
+    if (email.isEmpty || !email.contains('@')) {
+      throw ArgumentError('Valid email is required');
     }
-
     if (password.isEmpty) {
-      throw ArgumentError('Password cannot be empty');
+      throw ArgumentError('Password is required');
     }
 
-    // Проверка формата email
-    if (!email.contains('@')) {
-      throw ArgumentError('Invalid email format');
-    }
-
-    // Минимальная длина пароля
-    if (password.length < 6) {
-      throw ArgumentError('Password must be at least 6 characters');
-    }
-
-    try {
-      // Выполняем логин через репозиторий
-      final user = await _repository.login(email, password);
-      return user;
-    } catch (e) {
-      // Преобразуем общую ошибку в понятное сообщение
-      throw Exception('Login failed: Invalid email or password');
-    }
+    return await repository.login(
+      email: email,
+      password: password,
+    );
   }
 }

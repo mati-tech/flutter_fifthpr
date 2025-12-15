@@ -1,84 +1,37 @@
+// lib/domain/usecases/auth/register_usecase.dart
 import '../../../core/models/user.dart';
-// import '../../core/models/user.dart';
-import '../../interfaces/repositories/user_repository.dart';
-// import '../interfaces/repositories/user_repository.dart';
+import '../../interfaces/repositories/auth_repository.dart';
+// import '../../entities/user.dart';
 
-/// UseCase для регистрации нового пользователя
 class RegisterUseCase {
-  final UserRepository _repository;
+  final AuthRepository repository;
 
-  RegisterUseCase(this._repository);
+  RegisterUseCase(this.repository);
 
-  /// Зарегистрировать нового пользователя
-  ///
-  /// [email] - email пользователя
-  /// [password] - пароль
-  /// [name] - имя пользователя
-  /// [phone] - телефон (опционально)
-  /// [address] - адрес (опционально)
-  ///
-  /// Возвращает зарегистрированного пользователя
-  ///
-  /// Исключения:
-  /// - [ArgumentError] если обязательные поля пустые
-  /// - [Exception] если email уже занят или регистрация не удалась
   Future<User> execute({
+    required String name,
     required String email,
     required String password,
-    required String name,
     String? phone,
     String? address,
+    DateTime? dateOfBirth,
   }) async {
-    // Валидация обязательных полей
-    if (email.isEmpty) {
-      throw ArgumentError('Email cannot be empty');
+    // Validation
+    if (name.isEmpty) throw ArgumentError('Name is required');
+    if (email.isEmpty || !email.contains('@')) {
+      throw ArgumentError('Valid email is required');
     }
-
-    if (password.isEmpty) {
-      throw ArgumentError('Password cannot be empty');
-    }
-
-    if (name.isEmpty) {
-      throw ArgumentError('Name cannot be empty');
-    }
-
-    // Проверка формата email
-    if (!email.contains('@')) {
-      throw ArgumentError('Invalid email format');
-    }
-
-    // Проверка длины пароля
     if (password.length < 6) {
       throw ArgumentError('Password must be at least 6 characters');
     }
 
-    // Проверка, не занят ли email
-    try {
-      final emailExists = await _repository.emailExists(email);
-      if (emailExists) {
-        throw Exception('Email already registered');
-      }
-    } catch (e) {
-      // Игнорируем ошибку проверки, продолжаем регистрацию
-      print('Email check failed: $e');
-    }
-
-    try {
-      // Регистрируем пользователя
-      final user = await _repository.register(email, password, name);
-
-      // Если есть дополнительные данные, обновляем профиль
-      if (phone != null || address != null) {
-        final updatedUser = user.copyWith(
-          phone: phone,
-          address: address,
-        );
-        return await _repository.updateProfile(updatedUser);
-      }
-
-      return user;
-    } catch (e) {
-      throw Exception('Registration failed: ${e.toString()}');
-    }
+    return await repository.register(
+      name: name,
+      email: email,
+      password: password,
+      phone: phone,
+      address: address,
+      dateOfBirth: dateOfBirth,
+    );
   }
 }

@@ -24,8 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _debugCheckTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final isDark = prefs.getBool('storelytech_app_theme');
-    print('DEBUG: Saved theme value in SharedPreferences: $isDark');
-    print('DEBUG: File location should be in app data directory');
   }
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
