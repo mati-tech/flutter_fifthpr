@@ -1,7 +1,11 @@
 import 'dart:ui';
 
-import '../../features/cart/models/cart_item.dart';
-import '../../shared/app_theme.dart';
+// import '../../ui/features/cart/models/cart_item.dart';
+import '../../ui/shared/app_theme.dart';
+import 'cart_item.dart';
+
+// import '../../features/cart/models/cart_item.dart';
+// import '../../shared/app_theme.dart';
 
 
 enum OrderStatus {

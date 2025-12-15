@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:storelytech/ui/features/settings/providers/settings_provider.dart';
+import 'package:storelytech/ui/shared/app_theme.dart';
 import 'app.dart';
 import 'app_router.dart';
-import 'features/settings/providers/settings_provider.dart';
-import 'shared/setup_di.dart';
+// import 'features/settings/providers/settings_provider.dart';
+// import 'shared/setup_di.dart';
 
 // void main() {
 //   runApp(
@@ -16,7 +18,7 @@ import 'shared/setup_di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import './providers/settings_notifier.dart';
-import './shared/app_theme.dart';
+// import './shared/app_theme.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -51,7 +53,7 @@ class MyApp extends ConsumerWidget {
         brightness: Brightness.light,
       ),
       useMaterial3: true,
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: AppTheme.primaryColor,
         foregroundColor: Colors.white,
       ),

@@ -1,4 +1,4 @@
-import '../../interfaces/user_repository.dart';
+import '../../interfaces/repositories/user_repository.dart';
 // import '../interfaces/repositories/user_repository.dart';
 
 /// UseCase для выхода из системы

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:storelytech/app_router.dart';
-import 'shared/app_theme.dart';
+import 'package:storelytech/ui/shared/app_theme.dart';
+// import 'shared/app_theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

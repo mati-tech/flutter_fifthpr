@@ -1,5 +1,7 @@
-import '../../features/home/models/product.dart';
+import 'product.dart';
 
+/// Domain entity representing an item in the shopping cart
+/// Pure Dart class - no Flutter dependencies
 class CartItem {
   final String id;
   final Product product;

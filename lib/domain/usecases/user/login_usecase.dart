@@ -1,5 +1,5 @@
 import '../../../core/models/user.dart';
-import '../../interfaces/user_repository.dart';
+import '../../interfaces/repositories/user_repository.dart';
 
 
 /// UseCase для входа в систему
