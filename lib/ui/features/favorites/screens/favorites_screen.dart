@@ -6,6 +6,7 @@ import '../../../shared/tempFavorites.dart';
 import '../../../shared/app_theme.dart';
 
 import '../providers/favorites_provider.dart';
+// import '../providers/favorites_provider.g.dart';
 import '../widgets/favorite_tile.dart';
 import '../../../shared/widgets/empty_state.dart';
 
@@ -17,8 +18,8 @@ class FavoritesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final favoritesState = ref.watch(favoritesNotifierProvider);
-    final favoritesNotifier = ref.read(favoritesNotifierProvider.notifier);
+    final favoritesState = ref.watch(favoriteProvider);
+    final favoritesNotifier = ref.read(favoriteProvider.notifier);
     final tempFavorites = TempFavorites.all; // for the temp fav to show
 
     return Scaffold(
@@ -110,7 +111,7 @@ class FavoritesScreen extends ConsumerWidget {
           ),
           TextButton(
             onPressed: () {
-              ref.read(favoritesNotifierProvider.notifier).clearFavorites();
+              // ref.read(favoriteProvider.notifier).clearFavorites();
               Navigator.pop(context);
             },
             child: const Text(
