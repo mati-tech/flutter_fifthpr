@@ -9,7 +9,7 @@ class OrdersScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ordersState = ref.watch(ordersNotifierProvider);
+    final ordersState = ref.watch(orderProvider);
 
     return Scaffold(
       appBar: AppBar(

@@ -77,7 +77,7 @@ final favoriteDataSourceProvider = Provider<FavoriteApiDataSource>((ref) {
 // If you don't have it, let me know and I'll help create it
 final productDataSourceProvider = Provider<ProductApiDataSource>((ref) {
   // You need to create this or import from home
-  throw UnimplementedError('Create productDataSourceProvider first');
+  return MockProductApiDataSource();
 });
 
 final favoriteRepositoryProvider = Provider<FavoriteRepositoryImpl>((ref) {

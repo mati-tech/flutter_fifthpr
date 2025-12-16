@@ -62,7 +62,7 @@ final GoRouter router = GoRouter(
     ),
     // GoRoute(
     //   path: '/settings',
-    //   builder: (context, state) => const SettingsScreen(),
+    //   // builder: (context, state) => const SettingsScreen(),
     // ),
     GoRoute(
       path: '/profile',

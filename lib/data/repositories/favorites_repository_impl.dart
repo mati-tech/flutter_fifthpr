@@ -30,9 +30,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
 
     // 2. Get product details
     final productResponse = await productDataSource.getProductById(productId);
-    // You need ProductDto and ProductMapper here
-    // final productDto = ProductDto.fromJson(productResponse);
-    // final product = ProductMapper.toDomain(productDto);
 
     // 3. Return combined FavoriteItem
     // For now, create a dummy product

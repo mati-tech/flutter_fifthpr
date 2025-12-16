@@ -61,15 +61,7 @@ class ProductDetailScreen extends ConsumerWidget {
                 ),
                 onPressed: () {
                   // Toggle favorite
-                  if (isFavorite) {
-                    // Find and remove favorite item
-                    final favoriteItem = favoritesState.favorites.firstWhere(
-                          (item) => item.product.id == product.id,
-                    );
-                    favoritesNotifier.removeFromFavorites(favoriteItem.id);
-                  } else {
-                    favoritesNotifier.addToFavorites(product.id);
-                  }
+                  favoritesNotifier.toggleFavorite(product.id);
                 },
               ),
               IconButton(

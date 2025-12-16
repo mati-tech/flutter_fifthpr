@@ -1,161 +1,150 @@
-// // lib/data/datasources/cart_api_datasource.dart
-//
-// abstract class CartApiDataSource {
-//   // Add to cart
-//   Future<Map<String, dynamic>> addToCart(String productId, int quantity);
-//
-//   // Remove from cart
-//   Future<void> removeFromCart(String cartItemId);
-//
-//   // Update quantity
-//   Future<Map<String, dynamic>> updateQuantity(String cartItemId, int quantity);
-//
-//   // Get all cart items
-//   Future<List<Map<String, dynamic>>> getCartItems();
-//
-//   // Clear cart
-//   Future<void> clearCart();
-//
-//   // Get cart summary
-//   Future<Map<String, dynamic>> getCartSummary();
-//
-//   // Apply coupon
-//   Future<Map<String, dynamic>> applyCoupon(String couponCode);
-// }
-//
-// // lib/data/datasources/mock_cart_api_datasource.dart
-// // import 'cart_api_datasource.dart';
-//
-// class MockCartApiDataSource implements CartApiDataSource {
-//   final List<Map<String, dynamic>> _mockCart = [];
-//   int _nextId = 1;
-//
-//   Future<void> _simulateDelay() async {
-//     await Future.delayed(const Duration(milliseconds: 300));
-//   }
-//
-//   @override
-//   Future<Map<String, dynamic>> addToCart(String productId, int quantity) async {
-//     await _simulateDelay();
-//
-//     // Check if already in cart
-//     final existingIndex = _mockCart.indexWhere(
-//           (item) => item['product_id'] == productId,
-//     );
-//
-//     if (existingIndex != -1) {
-//       // Update quantity
-//       final currentQuantity = _mockCart[existingIndex]['quantity'] as int;
-//       _mockCart[existingIndex]['quantity'] = currentQuantity + quantity;
-//       _mockCart[existingIndex]['updated_at'] = DateTime.now().toIso8601String();
-//
-//       return _mockCart[existingIndex];
-//     } else {
-//       // Add new item
-//       final newItem = {
-//         'id': 'cart_${_nextId++}',
-//         'product_id': productId,
-//         'quantity': quantity,
-//         'added_at': DateTime.now().toIso8601String(),
-//         'updated_at': DateTime.now().toIso8601String(),
-//       };
-//
-//       _mockCart.add(newItem);
-//       return newItem;
-//     }
-//   }
-//
-//   @override
-//   Future<void> removeFromCart(String cartItemId) async {
-//     await _simulateDelay();
-//
-//     _mockCart.removeWhere((item) => item['id'] == cartItemId);
-//   }
-//
-//   @override
-//   Future<Map<String, dynamic>> updateQuantity(String cartItemId, int quantity) async {
-//     await _simulateDelay();
-//
-//     final itemIndex = _mockCart.indexWhere((item) => item['id'] == cartItemId);
-//
-//     if (itemIndex == -1) {
-//       throw Exception('Cart item not found');
-//     }
-//
-//     if (quantity <= 0) {
-//       _mockCart.removeAt(itemIndex);
-//       throw Exception('Quantity must be greater than 0');
-//     }
-//
-//     _mockCart[itemIndex]['quantity'] = quantity;
-//     _mockCart[itemIndex]['updated_at'] = DateTime.now().toIso8601String();
-//
-//     return _mockCart[itemIndex];
-//   }
-//
-//   @override
-//   Future<List<Map<String, dynamic>>> getCartItems() async {
-//     await _simulateDelay();
-//     return List.from(_mockCart);
-//   }
-//
-//   @override
-//   Future<void> clearCart() async {
-//     await _simulateDelay();
-//     _mockCart.clear();
-//   }
-//
-//   @override
-//   Future<Map<String, dynamic>> getCartSummary() async {
-//     await _simulateDelay();
-//
-//     int totalItems = 0;
-//     int totalQuantity = 0;
-//
-//     for (final item in _mockCart) {
-//       totalItems++;
-//       totalQuantity += item['quantity'] as int;
-//     }
-//
-//     return {
-//       'total_items': totalItems,
-//       'total_quantity': totalQuantity,
-//       'item_count': _mockCart.length,
-//     };
-//   }
-//
-//   @override
-//   Future<Map<String, dynamic>> applyCoupon(String couponCode) async {
-//     await _simulateDelay();
-//
-//     if (couponCode.isEmpty) {
-//       throw Exception('Coupon code is required');
-//     }
-//
-//     // Mock coupon validation
-//     final validCoupons = ['SAVE10', 'WELCOME20', 'FLASH30'];
-//
-//     if (!validCoupons.contains(couponCode.toUpperCase())) {
-//       throw Exception('Invalid coupon code');
-//     }
-//
-//     double discount = 0;
-//     switch (couponCode.toUpperCase()) {
-//       case 'SAVE10':
-//         discount = 10;
-//         break;
-//       case 'WELCOME20':
-//         discount = 20;
-//         break;
-//       case 'FLASH30':
-//         discount = 30;
-//         break;
-//     }
-//
-//     return {
-//       'coupon_code': couponCode,
-//       'discount_percentage': discount,
-//       'message': 'Coupon applied successfully',
-//     };
-//   }
-// }
+// lib/data/datasources/order_api_datasource.dart
+
+abstract class OrderApiDataSource {
+  // Create order
+  Future<Map<String, dynamic>> createOrder({
+    required List<Map<String, dynamic>> items,
+    required String shippingAddress,
+  });
+
+  // Get orders
+  Future<List<Map<String, dynamic>>> getOrders();
+
+  // Get order by ID
+  Future<Map<String, dynamic>> getOrderById(String id);
+
+  // Cancel order
+  Future<void> cancelOrder(String orderId);
+}
+
+class MockOrderApiDataSource implements OrderApiDataSource {
+  final List<Map<String, dynamic>> _mockOrders = [];
+  int _nextId = 1;
+
+  Future<void> _simulateDelay() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
+
+  @override
+  Future<Map<String, dynamic>> createOrder({
+    required List<Map<String, dynamic>> items,
+    required String shippingAddress,
+  }) async {
+    await _simulateDelay();
+
+    if (items.isEmpty) {
+      throw Exception('Cannot create order with empty items');
+    }
+
+    // Calculate total
+    final totalAmount = items.fold(0.0, (sum, item) {
+      final price = (item['price'] ?? 0.0).toDouble();
+      final quantity = (item['quantity'] ?? 1).toInt();
+      return sum + (price * quantity);
+    });
+
+    final newOrder = {
+      'id': 'order_${_nextId++}',
+      'order_number': 'ORD-${DateTime.now().millisecondsSinceEpoch}',
+      'items': items,
+      'total_amount': totalAmount,
+      'order_date': DateTime.now().toIso8601String(),
+      'status': 'pending',
+      'shipping_address': shippingAddress,
+      'created_at': DateTime.now().toIso8601String(),
+      'updated_at': DateTime.now().toIso8601String(),
+    };
+
+    _mockOrders.add(newOrder);
+    return newOrder;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getOrders() async {
+    await _simulateDelay();
+
+    // Return sample orders if empty
+    if (_mockOrders.isEmpty) {
+      return _createSampleOrders();
+    }
+
+    return List.from(_mockOrders);
+  }
+
+  @override
+  Future<Map<String, dynamic>> getOrderById(String id) async {
+    await _simulateDelay();
+
+    return _mockOrders.firstWhere(
+          (order) => order['id'] == id,
+      orElse: () => throw Exception('Order not found'),
+    );
+  }
+
+  @override
+  Future<void> cancelOrder(String orderId) async {
+    await _simulateDelay();
+
+    final index = _mockOrders.indexWhere((order) => order['id'] == orderId);
+
+    if (index == -1) {
+      throw Exception('Order not found');
+    }
+
+    _mockOrders[index]['status'] = 'cancelled';
+    _mockOrders[index]['updated_at'] = DateTime.now().toIso8601String();
+  }
+
+  // Create sample orders for testing
+  List<Map<String, dynamic>> _createSampleOrders() {
+    return [
+      {
+        'id': 'order_1',
+        'order_number': 'ORD-1001',
+        'items': [
+          {
+            'product_id': '1',
+            'name': 'iPhone 14 Pro',
+            'price': 999.99,
+            'quantity': 1,
+            'image_url': 'https://picsum.photos/200/300?random=iphone',
+          },
+        ],
+        'total_amount': 999.99,
+        'order_date': DateTime.now().subtract(const Duration(days: 5)).toIso8601String(),
+        'status': 'delivered',
+        'shipping_address': '123 Main St, New York, NY',
+        'tracking_number': 'TRK123456789',
+        'created_at': DateTime.now().subtract(const Duration(days: 5)).toIso8601String(),
+        'updated_at': DateTime.now().subtract(const Duration(days: 2)).toIso8601String(),
+      },
+      {
+        'id': 'order_2',
+        'order_number': 'ORD-1002',
+        'items': [
+          {
+            'product_id': '3',
+            'name': 'MacBook Air M2',
+            'price': 1199.99,
+            'quantity': 1,
+            'image_url': 'https://picsum.photos/200/300?random=macbook',
+          },
+          {
+            'product_id': '4',
+            'name': 'Sony Headphones',
+            'price': 349.99,
+            'quantity': 1,
+            'image_url': 'https://picsum.photos/200/300?random=headphones',
+          },
+        ],
+        'total_amount': 1549.98,
+        'order_date': DateTime.now().subtract(const Duration(days: 2)).toIso8601String(),
+        'status': 'shipped',
+        'shipping_address': '456 Oak Ave, Los Angeles, CA',
+        'tracking_number': 'TRK987654321',
+        'created_at': DateTime.now().subtract(const Duration(days: 2)).toIso8601String(),
+        'updated_at': DateTime.now().toIso8601String(),
+      },
+    ];
+  }
+}

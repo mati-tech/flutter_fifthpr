@@ -64,9 +64,9 @@
 //   },
 // );
 //
-
-
-
+//
+//
+//
 // import 'package:riverpod_annotation/riverpod_annotation.dart';
 //
 // part 'settings_provider.g.dart';
@@ -128,7 +128,7 @@
 //   }
 // }
 //
-
+//
 //
 // // lib/providers/settings_notifier.dart
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
