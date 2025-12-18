@@ -1,26 +1,26 @@
-// lib/data/datasources/remote/api/dio_client.dart
 import 'package:dio/dio.dart';
 
 class DioClient {
-  late final Dio _dio;
-
-  DioClient({
-    required String baseUrl,
-    Duration connectTimeout = const Duration(seconds: 15),
-    Duration receiveTimeout = const Duration(seconds: 15),
-  }) {
-    _dio = Dio(
+  static Dio create({String? token}) {
+    final dio = Dio(
       BaseOptions(
-        baseUrl: baseUrl,
-        connectTimeout: connectTimeout,
-        receiveTimeout: receiveTimeout,
+        connectTimeout: 10000,
+        receiveTimeout: 10000,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
         },
       ),
     );
-  }
 
-  Dio get dio => _dio;
+    dio.interceptors.add(
+      LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+      ),
+    );
+
+    return dio;
+  }
 }

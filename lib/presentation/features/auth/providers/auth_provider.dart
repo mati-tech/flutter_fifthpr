@@ -2,9 +2,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../data/datasources/Remote/api/auth_api.dart';
+import '../../../../data/datasources/Remote/api/dio_client.dart';
 import '../../../../data/datasources/Remote/auth_api_datasource.dart';
 import '../../../../data/repositories/auth_repository_impl.dart';
 import '../../../../core/models/user.dart';
+import '../../../../domain/interfaces/repositories/auth_repository.dart';
 import '../../../../domain/usecases/user/get_currentuser_usecase.dart';
 import '../../../../domain/usecases/user/login_usecase.dart';
 import '../../../../domain/usecases/user/logout_usecase.dart';
@@ -15,19 +18,24 @@ import '../../../shared/api_client_provider.dart';
 part 'auth_provider.g.dart';
 
 // ========== DEPENDENCY PROVIDERS (Using Riverpod Generator) ==========
+// 1. First create AuthApi (Retrofit service) provider
+// В провайдере
+@riverpod
+AuthApi authApi(AuthApiRef ref) {
+  final dio = DioClient.create();
+  return AuthApi(dio);
+}
 
 @riverpod
 AuthApiDataSource authDataSource(AuthDataSourceRef ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return FastApiAuthApiDataSource(apiClient);
+  final api = ref.watch(authApiProvider); // Use your AuthApi provider
+  return AuthApiDataSource(api); // ← Pass AuthApi, not Dio
 }
-
 @riverpod
-AuthRepositoryImpl authRepository(AuthRepositoryRef ref) {
+AuthRepository authRepository(AuthRepositoryRef ref) {
   final dataSource = ref.watch(authDataSourceProvider);
-  return AuthRepositoryImpl(dataSource);
+  return AuthRepositoryImpl(dataSource); // ← Links DataSource to Repository
 }
-
 @riverpod
 RegisterUseCase registerUseCase(RegisterUseCaseRef ref) {
   final repository = ref.watch(authRepositoryProvider);
@@ -87,12 +95,12 @@ class AuthNotifier extends _$AuthNotifier {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String username, String password) async {
     state = state.copyWith(isLoading: true, error: null);
 
     try {
       final useCase = ref.read(loginUseCaseProvider);
-      final user = await useCase.execute(email: email, password: password);
+      final user = await useCase.execute(username, password);
 
       state = state.copyWith(
         currentUser: user,

@@ -40,38 +40,38 @@ final GoRouter router = GoRouter(
       path: '/register',
       builder: (context, state) => const RegisterScreen(),
     ),
-    GoRoute(
-      path: '/home',
-      builder: (context, state) => const HomeScreen(),
-    ),
-    GoRoute(
-      path: '/cart',
-      builder: (context, state) => const CartScreen(),
-    ),
-    GoRoute(
-      path: '/favorites',
-      builder: (context, state) =>  FavoritesScreen(),
-    ),
-    GoRoute(
-      path: '/orders',
-      builder: (context, state) => const OrdersScreen(),
-    ),
-    GoRoute(
-      path: '/search',
-      builder: (context, state) => const SearchResultsScreen(),
-    ),
     // GoRoute(
-    //   path: '/settings',
-    //   // builder: (context, state) => const SettingsScreen(),
+    //   path: '/home',
+    //   builder: (context, state) => const HomeScreen(),
     // ),
-    GoRoute(
-      path: '/profile',
-      builder: (context, state) => const ProfileScreen(),
-    ),
-    GoRoute(
-      path: '/edit-profile',
-      builder: (context, state) => const EditProfileScreen(),
-    ),
+    // GoRoute(
+    //   path: '/cart',
+    //   builder: (context, state) => const CartScreen(),
+    // ),
+    // GoRoute(
+    //   path: '/favorites',
+    //   builder: (context, state) =>  FavoritesScreen(),
+    // ),
+    // GoRoute(
+    //   path: '/orders',
+    //   builder: (context, state) => const OrdersScreen(),
+    // ),
+    // GoRoute(
+    //   path: '/search',
+    //   builder: (context, state) => const SearchResultsScreen(),
+    // ),
+    // // GoRoute(
+    // //   path: '/settings',
+    // //   // builder: (context, state) => const SettingsScreen(),
+    // // ),
+    // GoRoute(
+    //   path: '/profile',
+    //   builder: (context, state) => const ProfileScreen(),
+    // ),
+    // GoRoute(
+    //   path: '/edit-profile',
+    //   builder: (context, state) => const EditProfileScreen(),
+    // ),
     // GoRoute(
     //   path: '/order-detail/:orderId',
     //   builder: (context, state) {
@@ -79,13 +79,13 @@ final GoRouter router = GoRouter(
     //     return OrderDetailScreen(orderId: orderId);
     //   },
     // ),
-    GoRoute(
-      path: '/product_detail',
-      builder: (context, state) {
-        final product = state.extra as Product; // Получаем весь объект
-        return ProductDetailScreen(product: product);
-      },
-    ),
+    // GoRoute(
+    //   path: '/product_detail',
+    //   builder: (context, state) {
+    //     final product = state.extra as Product; // Получаем весь объект
+    //     return ProductDetailScreen(product: product);
+    //   },
+    // ),
     // GoRoute(
     //   path: '/',
     //   redirect: (context, state) => '/login',

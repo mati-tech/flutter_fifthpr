@@ -1,12 +1,7 @@
-// lib/data/repositories/auth_repository_impl.dart
 import '../../core/models/user.dart';
 import '../../domain/interfaces/repositories/auth_repository.dart';
-// import '../../domain/entities/user.dart';
 import '../datasources/Remote/auth_api_datasource.dart';
-import '../datasources/Remote/dto/user_dto.dart';
 import '../datasources/Remote/mappers/user_mapper.dart';
-// import '../datasources/auth_api_datasource.dart';
-// import '../mappers/user_mapper.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthApiDataSource dataSource;
@@ -22,7 +17,7 @@ class AuthRepositoryImpl implements AuthRepository {
     String? address,
     DateTime? dateOfBirth,
   }) async {
-    final response = await dataSource.register(
+    final userDto = await dataSource.register(
       username: username,
       email: email,
       password: password,
@@ -31,86 +26,75 @@ class AuthRepositoryImpl implements AuthRepository {
       dateOfBirth: dateOfBirth,
     );
 
-    return UserMapper.toDomain(UserDto.fromJson(response));
+    return UserMapper.toDomain(userDto);
   }
 
   @override
   Future<User> login({
-    required String email,
+    required String username,
     required String password,
   }) async {
-    final response = await dataSource.login(
-      email: email,
+    final tokenDto = await dataSource.login(
+      username: username,
       password: password,
     );
 
-    return UserMapper.toDomain(UserDto.fromJson(response));
-  }
+    // optionally save token here
+    // secureStorage.save(tokenDto.accessToken);
 
-  @override
-  Future<void> logout() async {
-    await dataSource.logout();
+    final userDto = await dataSource.getCurrentUser();
+    return UserMapper.toDomain(userDto);
   }
 
   @override
   Future<User?> getCurrentUser() async {
     try {
-      final response = await dataSource.getCurrentUser();
-      return UserMapper.toDomain(UserDto.fromJson(response));
-    } catch (e) {
-      return null; // Not logged in
+      final userDto = await dataSource.getCurrentUser();
+      return UserMapper.toDomain(userDto);
+    } catch (_) {
+      return null;
     }
   }
 
   @override
-  Future<bool> isLoggedIn() async {
-    final user = await getCurrentUser();
-    return user != null;
+  Future<void> changePassword({required String currentPassword, required String newPassword}) {
+    // TODO: implement changePassword
+    throw UnimplementedError();
   }
 
   @override
-  Future<User> updateProfile({
-    required String name,
-    String? phone,
-    String? address,
-    DateTime? dateOfBirth,
-    String? profileImageUrl,
-  }) async {
-    final response = await dataSource.updateProfile(
-      name: name,
-      phone: phone,
-      address: address,
-      dateOfBirth: dateOfBirth,
-      profileImageUrl: profileImageUrl,
-    );
-
-    return UserMapper.toDomain(UserDto.fromJson(response));
+  Future<void> deleteAccount() {
+    // TODO: implement deleteAccount
+    throw UnimplementedError();
   }
 
   @override
-  Future<void> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  }) async {
-    await dataSource.changePassword(
-      currentPassword: currentPassword,
-      newPassword: newPassword,
-    );
+  Future<void> forgotPassword(String email) {
+    // TODO: implement forgotPassword
+    throw UnimplementedError();
   }
 
   @override
-  Future<void> forgotPassword(String email) async {
-    await dataSource.forgotPassword(email);
+  Future<bool> isLoggedIn() {
+    // TODO: implement isLoggedIn
+    throw UnimplementedError();
   }
 
   @override
-  Future<void> verifyEmail(String token) async {
-    await dataSource.verifyEmail(token);
+  Future<void> logout() {
+    // TODO: implement logout
+    throw UnimplementedError();
   }
 
   @override
-  Future<void> deleteAccount() async {
-    // For mock, just logout
-    await logout();
+  Future<User> updateProfile({required String name, String? phone, String? address, DateTime? dateOfBirth, String? profileImageUrl}) {
+    // TODO: implement updateProfile
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> verifyEmail(String token) {
+    // TODO: implement verifyEmail
+    throw UnimplementedError();
   }
 }
