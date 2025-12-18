@@ -1,4 +1,8 @@
-// lib/data/datasources/auth_api_datasource.dart
+// lib/data/datasources/api/auth_api_datasource.dart
+
+import 'package:dio/dio.dart';
+import '../../../core/config/env.dart';
+import '../../../core/network/api_client.dart';
 
 abstract class AuthApiDataSource {
   // Register new user
@@ -72,27 +76,13 @@ abstract class AuthApiDataSource {
   Future<void> unlinkSocialAccount(String provider);
 }
 
-class MockAuthApiDataSource implements AuthApiDataSource {
-  final Map<String, dynamic> _mockUser = {
-    'id': '1',
-    'email': 'demo@storelytech.com',
-    'name': 'John Doe',
-    'phone': '+1 (555) 123-4567',
-    'address': '123 Main Street, New York, NY 10001',
-    'date_of_birth': '1990-05-15',
-    'profile_image_url': null,
-    'created_at': DateTime.now().subtract(const Duration(days: 30)).toIso8601String(),
-    'updated_at': DateTime.now().toIso8601String(),
-    'token': 'mock_jwt_token_123456',
-    'refresh_token': 'mock_refresh_token_789012',
-  };
+/// FastAPI-backed implementation using Dio
+class FastApiAuthApiDataSource implements AuthApiDataSource {
+  final ApiClient _client;
 
-  bool _isLoggedIn = false;
-  String? _currentRefreshToken;
+  FastApiAuthApiDataSource(this._client);
 
-  Future<void> _simulateDelay() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-  }
+  Dio get _dio => _client.dio;
 
   @override
   Future<Map<String, dynamic>> register({
@@ -103,29 +93,15 @@ class MockAuthApiDataSource implements AuthApiDataSource {
     String? address,
     DateTime? dateOfBirth,
   }) async {
-    await _simulateDelay();
-
-    if (email == 'existing@example.com') {
-      throw Exception('Email already exists');
-    }
-
-    if (password.length < 6) {
-      throw Exception('Password must be at least 6 characters');
-    }
-
-    _isLoggedIn = true;
-    _currentRefreshToken = 'refresh_token_for_$email';
-
-    return {
-      ..._mockUser,
-      'email': email,
-      'name': name,
-      'phone': phone,
-      'address': address,
-      'date_of_birth': dateOfBirth?.toIso8601String(),
-      'message': 'Registration successful',
-      'refresh_token': _currentRefreshToken,
-    };
+    final response = await _dio.post(
+      '/auth/register',
+      data: {
+        'username': name,
+        'email': email,
+        'password': password,
+      },
+    );
+    return response.data as Map<String, dynamic>;
   }
 
   @override
@@ -133,44 +109,56 @@ class MockAuthApiDataSource implements AuthApiDataSource {
     required String email,
     required String password,
   }) async {
-    await _simulateDelay();
+    // FastAPI expects form data: username, password, grant_type
+    final response = await _dio.post(
+      '/auth/token',
+      data: {
+        'username': email,
+        'password': password,
+        'grant_type': 'password',
+      },
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+      ),
+    );
 
-    if (email == 'demo@storelytech.com' && password == 'password123') {
-      _isLoggedIn = true;
-      _currentRefreshToken = 'refresh_token_for_$email';
-
-      return {
-        ..._mockUser,
-        'message': 'Login successful',
-        'refresh_token': _currentRefreshToken,
-      };
-    } else {
-      throw Exception('Invalid credentials');
+    final data = response.data as Map<String, dynamic>;
+    final accessToken = data['access_token'] as String?;
+    if (accessToken != null && accessToken.isNotEmpty) {
+      _client.setToken(accessToken);
     }
+
+    // Fetch current user with the token we just set
+    final userResponse = await _dio.get('/auth/me');
+    final userData = userResponse.data as Map<String, dynamic>;
+
+    // Attach token so upper layers can map it if needed
+    return {
+      ...userData,
+      'token': accessToken,
+    };
   }
 
   @override
   Future<void> logout() async {
-    await _simulateDelay();
-    _isLoggedIn = false;
-    _currentRefreshToken = null;
+    // Backend may not need an explicit logout; just clear token locally
+    _client.clearToken();
   }
 
   @override
   Future<Map<String, dynamic>> getCurrentUser() async {
-    await _simulateDelay();
-
-    if (!_isLoggedIn) {
-      throw Exception('Not authenticated');
-    }
-
-    return _mockUser;
+    final response = await _dio.get('/auth/me');
+    return response.data as Map<String, dynamic>;
   }
 
   @override
   Future<bool> isAuthenticated() async {
-    await _simulateDelay();
-    return _isLoggedIn;
+    try {
+      await getCurrentUser();
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override
@@ -181,24 +169,16 @@ class MockAuthApiDataSource implements AuthApiDataSource {
     DateTime? dateOfBirth,
     String? profileImageUrl,
   }) async {
-    await _simulateDelay();
-
-    if (!_isLoggedIn) {
-      throw Exception('Not authenticated');
-    }
-
-    // Update mock user data
-    _mockUser['name'] = name;
-    if (phone != null) _mockUser['phone'] = phone;
-    if (address != null) _mockUser['address'] = address;
-    if (dateOfBirth != null) _mockUser['date_of_birth'] = dateOfBirth.toIso8601String();
-    if (profileImageUrl != null) _mockUser['profile_image_url'] = profileImageUrl;
-    _mockUser['updated_at'] = DateTime.now().toIso8601String();
-
-    return {
-      ..._mockUser,
-      'message': 'Profile updated successfully',
-    };
+    // Assuming PUT /users/me or similar – adjust as needed
+    final response = await _dio.put(
+      '/users/me',
+      data: {
+        'username': name,
+        if (phone != null) 'phone': phone,
+        if (address != null) 'address': address,
+      },
+    );
+    return response.data as Map<String, dynamic>;
   }
 
   @override
@@ -206,117 +186,38 @@ class MockAuthApiDataSource implements AuthApiDataSource {
     required String currentPassword,
     required String newPassword,
   }) async {
-    await _simulateDelay();
-
-    if (!_isLoggedIn) {
-      throw Exception('Not authenticated');
-    }
-
-    if (currentPassword != 'password123') {
-      throw Exception('Current password is incorrect');
-    }
-
-    if (newPassword.length < 6) {
-      throw Exception('New password must be at least 6 characters');
-    }
-
-    if (newPassword == currentPassword) {
-      throw Exception('New password must be different from current password');
-    }
+    // Implement if backend exposes such endpoint
+    throw UnimplementedError();
   }
 
   @override
   Future<void> forgotPassword(String email) async {
-    await _simulateDelay();
-
-    if (email.isEmpty || !email.contains('@')) {
-      throw Exception('Valid email is required');
-    }
-
-    if (!email.endsWith('@storelytech.com')) {
-      throw Exception('Password reset email sent to $email');
-    }
-
-    // Simulate sending email
-    await Future.delayed(const Duration(seconds: 1));
+    // Implement if backend exposes such endpoint
+    throw UnimplementedError();
   }
 
   @override
   Future<void> verifyEmail(String token) async {
-    await _simulateDelay();
-
-    if (token.isEmpty) {
-      throw Exception('Verification token is required');
-    }
-
-    if (token == 'valid_token_123') {
-      _mockUser['email_verified_at'] = DateTime.now().toIso8601String();
-    } else {
-      throw Exception('Invalid verification token');
-    }
+    // Implement if backend exposes such endpoint
+    throw UnimplementedError();
   }
 
   @override
   Future<Map<String, dynamic>> refreshToken(String refreshToken) async {
-    await _simulateDelay();
-
-    if (refreshToken.isEmpty) {
-      throw Exception('Refresh token is required');
-    }
-
-    if (refreshToken != _currentRefreshToken) {
-      throw Exception('Invalid refresh token');
-    }
-
-    // Generate new tokens
-    final newToken = 'new_jwt_token_${DateTime.now().millisecondsSinceEpoch}';
-    final newRefreshToken = 'new_refresh_token_${DateTime.now().millisecondsSinceEpoch}';
-
-    _mockUser['token'] = newToken;
-    _currentRefreshToken = newRefreshToken;
-
-    return {
-      'token': newToken,
-      'refresh_token': newRefreshToken,
-      'token_type': 'Bearer',
-      'expires_in': 3600,
-    };
+    // Implement if backend exposes such endpoint
+    throw UnimplementedError();
   }
 
   @override
   Future<String> uploadProfileImage(String imagePath) async {
-    await _simulateDelay();
-
-    if (!_isLoggedIn) {
-      throw Exception('Not authenticated');
-    }
-
-    if (imagePath.isEmpty) {
-      throw Exception('Image path is required');
-    }
-
-    // Simulate image upload
-    await Future.delayed(const Duration(seconds: 2));
-
-    // Return mock URL
-    return 'https://storelytech.com/profiles/user1_${DateTime.now().millisecondsSinceEpoch}.jpg';
+    // Implement if backend exposes such endpoint
+    throw UnimplementedError();
   }
 
   @override
   Future<void> deleteAccount() async {
-    await _simulateDelay();
-
-    if (!_isLoggedIn) {
-      throw Exception('Not authenticated');
-    }
-
-    // Ask for confirmation (in real app)
-    await Future.delayed(const Duration(seconds: 1));
-
-    // Clear all data
-    _isLoggedIn = false;
-    _currentRefreshToken = null;
-    // In real app, you would clear secure storage here
+    // Implement if backend exposes such endpoint
+    throw UnimplementedError();
   }
 
   @override
@@ -324,32 +225,8 @@ class MockAuthApiDataSource implements AuthApiDataSource {
     required String provider,
     required String token,
   }) async {
-    await _simulateDelay();
-
-    if (token.isEmpty) {
-      throw Exception('Social login token is required');
-    }
-
-    // Validate provider
-    final validProviders = ['google', 'facebook', 'apple'];
-    if (!validProviders.contains(provider.toLowerCase())) {
-      throw Exception('Unsupported provider: $provider');
-    }
-
-    _isLoggedIn = true;
-    _currentRefreshToken = 'social_refresh_token_$provider';
-
-    // Update user info based on provider
-    _mockUser['name'] = '$provider User';
-    _mockUser['email'] = 'user@$provider.com';
-    _mockUser['profile_image_url'] = 'https://$provider.com/avatar.jpg';
-
-    return {
-      ..._mockUser,
-      'provider': provider,
-      'message': 'Social login successful',
-      'refresh_token': _currentRefreshToken,
-    };
+    // Not supported in current backend spec
+    throw UnimplementedError();
   }
 
   @override
@@ -357,38 +234,13 @@ class MockAuthApiDataSource implements AuthApiDataSource {
     required String provider,
     required String token,
   }) async {
-    await _simulateDelay();
-
-    if (!_isLoggedIn) {
-      throw Exception('Not authenticated');
-    }
-
-    if (token.isEmpty) {
-      throw Exception('Social token is required');
-    }
-
-    // In real app, you would store the linked provider
-    _mockUser['linked_providers'] = [...?_mockUser['linked_providers'], provider];
-
-    await Future.delayed(const Duration(seconds: 1));
+    throw UnimplementedError();
   }
 
   @override
   Future<void> unlinkSocialAccount(String provider) async {
-    await _simulateDelay();
-
-    if (!_isLoggedIn) {
-      throw Exception('Not authenticated');
-    }
-
-    final linkedProviders = List<String>.from(_mockUser['linked_providers'] ?? []);
-    if (!linkedProviders.contains(provider)) {
-      throw Exception('Account not linked with $provider');
-    }
-
-    linkedProviders.remove(provider);
-    _mockUser['linked_providers'] = linkedProviders;
-
-    await Future.delayed(const Duration(seconds: 1));
+    throw UnimplementedError();
   }
 }
+
+/// Previous mock implementation (kept for reference, can be removed later)

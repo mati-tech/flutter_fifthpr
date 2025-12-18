@@ -6,11 +6,13 @@ import '../../../../data/repositories/product_repository_impl.dart';
 import '../../../../domain/usecases/product/get_featured_products_usecase.dart';
 import '../../../../domain/usecases/product/get_products_usecase.dart';
 import '../../../../domain/usecases/product/search_products_usecase.dart';
+import '../../../shared/api_client_provider.dart';
 
 
 // ========== DEPENDENCY PROVIDERS ==========
 final _homeDataSourceProvider = Provider<ProductApiDataSource>((ref) {
-  return MockProductApiDataSource();
+  final apiClient = ref.watch(apiClientProvider);
+  return FastApiProductApiDataSource(apiClient);
 });
 
 final _homeRepositoryProvider = Provider<ProductRepositoryImpl>((ref) {

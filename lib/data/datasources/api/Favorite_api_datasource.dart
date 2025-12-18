@@ -1,4 +1,7 @@
-// lib/data/datasources/favorite_api_datasource.dart
+// lib/data/datasources/api/favorite_api_datasource.dart
+
+import 'package:dio/dio.dart';
+import '../../../core/network/api_client.dart';
 
 abstract class FavoriteApiDataSource {
   // Add to favorites
@@ -23,71 +26,57 @@ abstract class FavoriteApiDataSource {
 // lib/data/datasources/mock_favorite_api_datasource.dart
 // import 'favorite_api_datasource.dart';
 
-class MockFavoriteApiDataSource implements FavoriteApiDataSource {
-  final List<Map<String, dynamic>> _mockFavorites = [];
-  int _nextId = 1;
+/// FastAPI-backed implementation using Dio
+class FastApiFavoriteApiDataSource implements FavoriteApiDataSource {
+  final ApiClient _client;
 
-  Future<void> _simulateDelay() async {
-    await Future.delayed(const Duration(milliseconds: 300));
-  }
+  FastApiFavoriteApiDataSource(this._client);
+
+  Dio get _dio => _client.dio;
 
   @override
   Future<Map<String, dynamic>> addToFavorites(String productId) async {
-    await _simulateDelay();
-
-    // Check if already favorited
-    final existing = _mockFavorites.firstWhere(
-          (fav) => fav['product_id'] == productId,
-      orElse: () => {},
+    // NOTE: Backend expects user_id; in a real app, derive it from /auth/me
+    // Here we assume backend uses current user from token and ignores user_id
+    final response = await _dio.post(
+      '/api/favorites/',
+      data: {
+        'product_id': int.tryParse(productId) ?? productId,
+      },
     );
-
-    if (existing.isNotEmpty) {
-      throw Exception('Product already in favorites');
-    }
-
-    final newFavorite = {
-      'id': 'fav_${_nextId++}',
-      'product_id': productId,
-      'added_at': DateTime.now().toIso8601String(),
-    };
-
-    _mockFavorites.add(newFavorite);
-    return newFavorite;
+    return response.data as Map<String, dynamic>;
   }
 
   @override
   Future<void> removeFromFavorites(String favoriteId) async {
-    await _simulateDelay();
-
-    _mockFavorites.removeWhere((fav) => fav['id'] == favoriteId);
+    await _dio.delete('/api/favorites/$favoriteId');
   }
 
   @override
   Future<List<Map<String, dynamic>>> getFavorites() async {
-    await _simulateDelay();
-    return List.from(_mockFavorites);
+    // In FastAPI spec we have: GET /api/favorites/user/{user_id}
+    // Here we assume backend exposes /api/favorites/ for current user token
+    final response = await _dio.get('/api/favorites/');
+    final data = response.data as List<dynamic>;
+    return data.cast<Map<String, dynamic>>();
   }
 
   @override
   Future<bool> isFavorite(String productId) async {
-    await _simulateDelay();
-
-    return _mockFavorites.any((fav) => fav['product_id'] == productId);
+    final favorites = await getFavorites();
+    return favorites.any(
+      (fav) => fav['product_id']?.toString() == productId,
+    );
   }
 
   @override
   Future<void> clearFavorites() async {
-    await _simulateDelay();
-    _mockFavorites.clear();
+    await _dio.delete('/api/favorites/');
   }
 
   @override
   Future<Map<String, dynamic>> getFavoriteById(String id) async {
-    await _simulateDelay();
-
-    return _mockFavorites.firstWhere(
-          (fav) => fav['id'] == id,
-      orElse: () => throw Exception('Favorite not found'),
-    );
+    final response = await _dio.get('/api/favorites/$id');
+    return response.data as Map<String, dynamic>;
   }
 }

@@ -60,24 +60,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/models/favorite_item.dart';
 import '../../../../data/datasources/api/Favorite_api_datasource.dart';
-
 import '../../../../data/datasources/api/product_api_datasource.dart';
 import '../../../../data/repositories/favorites_repository_impl.dart';
 import '../../../../domain/usecases/favorites/add_to_favorite_usecase.dart';
 import '../../../../domain/usecases/favorites/is_product_favorite_usecase.dart';
 import '../../../../domain/usecases/favorites/remove_from_favorite_usecase.dart';
 import '../../../../domain/usecases/favorites/get_favorites_usecase.dart';
+import '../../../shared/api_client_provider.dart';
 
 // ========== DEPENDENCY PROVIDERS ==========
 final favoriteDataSourceProvider = Provider<FavoriteApiDataSource>((ref) {
-  return MockFavoriteApiDataSource();
+  final apiClient = ref.watch(apiClientProvider);
+  return FastApiFavoriteApiDataSource(apiClient);
 });
 
-// Note: You need a productDataSourceProvider from your Home feature
-// If you don't have it, let me know and I'll help create it
 final productDataSourceProvider = Provider<ProductApiDataSource>((ref) {
-  // You need to create this or import from home
-  return MockProductApiDataSource();
+  final apiClient = ref.watch(apiClientProvider);
+  return FastApiProductApiDataSource(apiClient);
 });
 
 final favoriteRepositoryProvider = Provider<FavoriteRepositoryImpl>((ref) {

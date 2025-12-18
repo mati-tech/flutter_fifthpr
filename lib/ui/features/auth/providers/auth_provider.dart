@@ -3,15 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../data/datasources/api/auth_api_datasource.dart';
-// import '../../../../data/datasources/auth_api_datasource.dart';
 import '../../../../data/repositories/auth_repository_impl.dart';
-// import '../../../../domain/usecases/auth/auth_usecases.dart';
 import '../../../../core/models/user.dart';
 import '../../../../domain/usecases/user/get_currentuser_usecase.dart';
 import '../../../../domain/usecases/user/login_usecase.dart';
 import '../../../../domain/usecases/user/logout_usecase.dart';
 import '../../../../domain/usecases/user/register_usecase.dart';
 import '../../../../domain/usecases/user/update_profile_usecase.dart';
+import '../../../shared/api_client_provider.dart';
 
 part 'auth_provider.g.dart';
 
@@ -19,7 +18,8 @@ part 'auth_provider.g.dart';
 
 @riverpod
 AuthApiDataSource authDataSource(AuthDataSourceRef ref) {
-  return MockAuthApiDataSource();
+  final apiClient = ref.watch(apiClientProvider);
+  return FastApiAuthApiDataSource(apiClient);
 }
 
 @riverpod
