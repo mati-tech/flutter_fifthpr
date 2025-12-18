@@ -5,7 +5,7 @@ import '../../../core/models/user.dart';
 abstract class AuthRepository {
   // Registration
   Future<User> register({
-    required String name,
+    required String username,
     required String email,
     required String password,
     String? phone,

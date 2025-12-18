@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:storelytech/ui/features/settings/providers/settings_provider.dart';
-import 'package:storelytech/ui/shared/app_theme.dart';
+import 'package:storelytech/presentation/features/settings/providers/settings_provider.dart';
+import 'package:storelytech/presentation/shared/app_theme.dart';
 import 'app.dart';
 import 'app_router.dart';
 // import 'features/settings/providers/settings_provider.dart';

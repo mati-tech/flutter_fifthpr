@@ -5,13 +5,10 @@ import '../../domain/interfaces/repositories/fav_repository.dart';
 // import '../../domain/interfaces/repositories/favorite_repository.dart';
 // import '../../domain/entities/favorite_item.dart';
 // import '../../domain/entities/product.dart';
-import '../datasources/api/Favorite_api_datasource.dart';
-import '../datasources/api/dto/Favorite_dto.dart';
-import '../datasources/api/product_api_datasource.dart';
-// import '../datasources/favorite_api_datasource.dart';
-// import '../datasources/product_api_datasource.dart'; // Need to get product details
-// import '../mappers/favorite_mapper.dart';
-// import '../dtos/favorite_dto.dart';
+import '../datasources/Remote/Favorite_api_datasource.dart';
+import '../datasources/Remote/dto/Favorite_dto.dart';
+import '../datasources/Remote/product_api_datasource.dart';
+import '../datasources/Remote/mappers/product_mapper.dart';
 
 class FavoriteRepositoryImpl implements FavoriteRepository {
   final FavoriteApiDataSource favoriteDataSource;
@@ -29,27 +26,14 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     final favoriteDto = FavoriteDto.fromJson(response);
 
     // 2. Get product details
-    final productResponse = await productDataSource.getProductById(productId);
+    final productDto = await productDataSource.getProductById(productId);
+    final product = ProductMapper.toDomain(productDto);
 
-    // 3. Return combined FavoriteItem
-    // For now, create a dummy product
-    final dummyProduct = Product(
-      id: productId,
-      name: 'Product $productId',
-      description: '',
-      price: 0,
-      imageUrl: '',
-      category: '',
-      brand: '',
-      stockQuantity: 0,
-      isFeatured: false,
-      createdAt: DateTime.now(),
-    );
-
+    // 3. Create FavoriteItem
     return FavoriteItem(
       id: favoriteDto.id,
-      product: dummyProduct,
-      addedAt: favoriteDto.addedAt,
+      product: product,
+      addedAt: DateTime.now(),
     );
   }
 

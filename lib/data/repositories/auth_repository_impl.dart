@@ -2,9 +2,9 @@
 import '../../core/models/user.dart';
 import '../../domain/interfaces/repositories/auth_repository.dart';
 // import '../../domain/entities/user.dart';
-import '../datasources/api/auth_api_datasource.dart';
-import '../datasources/api/dto/user_dto.dart';
-import '../datasources/api/mappers/user_mapper.dart';
+import '../datasources/Remote/auth_api_datasource.dart';
+import '../datasources/Remote/dto/user_dto.dart';
+import '../datasources/Remote/mappers/user_mapper.dart';
 // import '../datasources/auth_api_datasource.dart';
 // import '../mappers/user_mapper.dart';
 
@@ -15,7 +15,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User> register({
-    required String name,
+    required String username,
     required String email,
     required String password,
     String? phone,
@@ -23,7 +23,7 @@ class AuthRepositoryImpl implements AuthRepository {
     DateTime? dateOfBirth,
   }) async {
     final response = await dataSource.register(
-      name: name,
+      username: username,
       email: email,
       password: password,
       phone: phone,

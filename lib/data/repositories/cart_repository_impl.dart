@@ -4,9 +4,9 @@ import '../../core/models/product.dart';
 import '../../domain/interfaces/repositories/cart_repository.dart';
 // import '../../domain/entities/cart_item.dart';
 // import '../../domain/entities/product.dart';
-import '../datasources/api/cart_api_datasource.dart';
-import '../datasources/api/order_api_datasource.dart';
-import '../datasources/api/product_api_datasource.dart';
+import '../datasources/Remote/cart_api_datasource.dart';
+import '../datasources/Remote/order_api_datasource.dart';
+import '../datasources/Remote/product_api_datasource.dart';
 // import '../datasources/cart_api_datasource.dart';
 // import '../datasources/product_api_datasource.dart';
 

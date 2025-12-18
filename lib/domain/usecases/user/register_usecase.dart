@@ -9,7 +9,7 @@ class RegisterUseCase {
   RegisterUseCase(this.repository);
 
   Future<User> execute({
-    required String name,
+    required String username,
     required String email,
     required String password,
     String? phone,
@@ -17,7 +17,7 @@ class RegisterUseCase {
     DateTime? dateOfBirth,
   }) async {
     // Validation
-    if (name.isEmpty) throw ArgumentError('Name is required');
+    if (username.isEmpty) throw ArgumentError('Username is required');
     if (email.isEmpty || !email.contains('@')) {
       throw ArgumentError('Valid email is required');
     }
@@ -26,7 +26,7 @@ class RegisterUseCase {
     }
 
     return await repository.register(
-      name: name,
+      username: username,
       email: email,
       password: password,
       phone: phone,

@@ -8,6 +8,7 @@ class LoginUseCase {
 
   LoginUseCase(this.repository);
 
+  /// Login user with email and password.
   Future<User> execute({
     required String email,
     required String password,
