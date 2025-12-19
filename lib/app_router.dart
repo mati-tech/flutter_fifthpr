@@ -30,7 +30,7 @@ import 'core/models/product.dart';
 // import 'features/settings/screens/settings_screen.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/home',
   routes: [
     // GoRoute(
     //   path: '/login',
@@ -40,10 +40,10 @@ final GoRouter router = GoRouter(
     //   path: '/register',
     //   builder: (context, state) => const RegisterScreen(),
     // ),
-    // GoRoute(
-    //   path: '/home',
-    //   builder: (context, state) => const HomeScreen(),
-    // ),
+    GoRoute(
+      path: '/home',
+      builder: (context, state) => const HomeScreen(),
+    ),
     // GoRoute(
     //   path: '/cart',
     //   builder: (context, state) => const CartScreen(),
