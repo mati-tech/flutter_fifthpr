@@ -111,7 +111,7 @@
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import '../../../../core/models/cart_item.dart';
 // import '../../../../data/datasources/remote/cart_api_datasource.dart';
-// import '../../../../data/datasources/remote/product_api_datasource.dart';
+// import '../../../../data/datasources/remote/product_remote_datasource.dart';
 // // import '../../../../data/datasources/cart_api_datasource.dart';
 // // import '../../../../data/datasources/mock_cart_api_datasource.dart';
 // // import '../../../../data/datasources/mock_product_api_datasource.dart';

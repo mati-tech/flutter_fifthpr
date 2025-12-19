@@ -80,11 +80,11 @@ final GoRouter router = GoRouter(
     //   },
     // ),
     // GoRoute(
-    //   path: '/product_detail',
-    //   builder: (context, state) {
-    //     final product = state.extra as Product; // Получаем весь объект
-    //     return ProductDetailScreen(product: product);
-    //   },
+      // path: '/product_detail',
+      // builder: (context, state) {
+      //   final product = state.extra as Product; // Получаем весь объект
+      //   return ProductDetailScreen(product: product);
+      // },
     // ),
     // GoRoute(
     //   path: '/',

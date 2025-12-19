@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:storelytech/data/datasources/remote/product_api_datasource.dart';
+import 'package:storelytech/data/datasources/Remote/product_remote_datasource.dart';
 import 'package:storelytech/data/repositories/product_repository_impl.dart';
 // import '../datasources/remote/providers.dart';
 // import '../datasources/remote/featured_product_datasource.dart';

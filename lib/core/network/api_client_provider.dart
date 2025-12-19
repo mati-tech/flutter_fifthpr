@@ -9,8 +9,8 @@ final apiClientProvider = Provider<Dio>((ref) {
   final dio = Dio(
     BaseOptions(
       baseUrl: '', // Leave empty or set global baseUrl if you want
-      connectTimeout: 10000,
-      receiveTimeout: 10000,
+      connectTimeout: 20000,
+      receiveTimeout: 20000,
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
