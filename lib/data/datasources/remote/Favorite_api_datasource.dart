@@ -1,4 +1,4 @@
-// // lib/data/datasources/Remote/favorite_api_datasource.dart
+// // lib/data/datasources/remote/favorite_api_datasource.dart
 //
 // import 'package:dio/dio.dart';
 // import '../../../core/network/api_client_provider.dart';
@@ -39,7 +39,7 @@
 //     // NOTE: Backend expects user_id; in a real app, derive it from /auth/me
 //     // Here we assume backend uses current user from token and ignores user_id
 //     final response = await _dio.post(
-//       '/Remote/favorites/',
+//       '/remote/favorites/',
 //       data: {
 //         'product_id': int.tryParse(productId) ?? productId,
 //       },
@@ -49,14 +49,14 @@
 //
 //   @override
 //   Future<void> removeFromFavorites(String favoriteId) async {
-//     await _dio.delete('/Remote/favorites/$favoriteId');
+//     await _dio.delete('/remote/favorites/$favoriteId');
 //   }
 //
 //   @override
 //   Future<List<Map<String, dynamic>>> getFavorites() async {
-//     // In FastAPI spec we have: GET /Remote/favorites/user/{user_id}
-//     // Here we assume backend exposes /Remote/favorites/ for current user token
-//     final response = await _dio.get('/Remote/favorites/');
+//     // In FastAPI spec we have: GET /remote/favorites/user/{user_id}
+//     // Here we assume backend exposes /remote/favorites/ for current user token
+//     final response = await _dio.get('/remote/favorites/');
 //     final data = response.data as List<dynamic>;
 //     return data.cast<Map<String, dynamic>>();
 //   }
@@ -71,12 +71,12 @@
 //
 //   @override
 //   Future<void> clearFavorites() async {
-//     await _dio.delete('/Remote/favorites/');
+//     await _dio.delete('/remote/favorites/');
 //   }
 //
 //   @override
 //   Future<Map<String, dynamic>> getFavoriteById(String id) async {
-//     final response = await _dio.get('/Remote/favorites/$id');
+//     final response = await _dio.get('/remote/favorites/$id');
 //     return response.data as Map<String, dynamic>;
 //   }
 // }

@@ -101,13 +101,6 @@ class ProductTile extends StatelessWidget {
                     //   style: const TextStyle(fontSize: 12),
                     // ),
                     const SizedBox(width: 4),
-                    Text(
-                      '(${product.reviewCount})',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: AppTheme.secondaryColor,
-                      ),
-                    ),
                   ],
                 ),
                 const Spacer(),

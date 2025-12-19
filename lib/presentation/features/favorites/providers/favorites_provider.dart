@@ -59,8 +59,8 @@
 // lib/presentation/features/favorites/providers/favorite_provider.dart
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import '../../../../core/models/favorite_item.dart';
-// import '../../../../data/datasources/Remote/Favorite_api_datasource.dart';
-// import '../../../../data/datasources/Remote/product_api_datasource.dart';
+// import '../../../../data/datasources/remote/Favorite_api_datasource.dart';
+// import '../../../../data/datasources/remote/product_api_datasource.dart';
 // import '../../../../data/repositories/favorites_repository_impl.dart';
 // import '../../../../domain/usecases/favorites/add_to_favorite_usecase.dart';
 // import '../../../../domain/usecases/favorites/is_product_favorite_usecase.dart';

@@ -1,22 +1,17 @@
+// lib/domain/usecases/products/get_featured_products_usecase.dart
+import 'package:storelytech/core/models/featured_product.dart';
+
 import '../../../core/models/product.dart';
+import '../../interfaces/repositories/general_product_repository.dart';
 import '../../interfaces/repositories/product_repository.dart';
+// import '../../entities/product.dart';
 
-/// Use case for getting all products
-/// Single responsibility: Fetch all available products
 class GetProductsUseCase {
-  final ProductRepository _repository;
+  final GeneralProductRepository repository;
 
-  GetProductsUseCase(this._repository);
+  GetProductsUseCase(this.repository);
 
-  /// Execute the use case
-  /// Returns a list of all products
-  /// Throws Exception if the operation fails
   Future<List<Product>> execute() async {
-    try {
-      return await _repository.getProducts();
-    } catch (e) {
-      throw Exception('Failed to fetch products: ${e.toString()}');
-    }
+    return await repository.getProducts();
   }
 }
-

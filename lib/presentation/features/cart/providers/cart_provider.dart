@@ -110,8 +110,8 @@
 // // lib/presentation/features/cart/providers/cart_provider.dart
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import '../../../../core/models/cart_item.dart';
-// import '../../../../data/datasources/Remote/cart_api_datasource.dart';
-// import '../../../../data/datasources/Remote/product_api_datasource.dart';
+// import '../../../../data/datasources/remote/cart_api_datasource.dart';
+// import '../../../../data/datasources/remote/product_api_datasource.dart';
 // // import '../../../../data/datasources/cart_api_datasource.dart';
 // // import '../../../../data/datasources/mock_cart_api_datasource.dart';
 // // import '../../../../data/datasources/mock_product_api_datasource.dart';

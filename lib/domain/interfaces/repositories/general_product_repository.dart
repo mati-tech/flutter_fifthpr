@@ -1,14 +1,13 @@
-import '../../../core/models/featured_product.dart';
+
+
+
 import '../../../core/models/product.dart';
-import '../../../core/models/category.dart';
 
-/// Abstract repository interface for product operations
-/// Domain layer - no Flutter, HTTP, or JSON dependencies
-abstract class ProductRepository {
+abstract class GeneralProductRepository {
 
-  Future<List<FeaturedProduct>> getFeaturedProducts();
-  // Future<List<Product>> getProducts();
-  // Get product by ID
+  // Future<List<Product>> g();
+Future<List<Product>> getProducts();
+// Get product by ID
 //   Future<Product> getProductById(String id);
 //
 //   // Search products
@@ -26,4 +25,3 @@ abstract class ProductRepository {
 // // Get category by ID
 //   Future<Category> getCategoryById(String id);
 }
-

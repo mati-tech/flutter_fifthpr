@@ -5,10 +5,10 @@
 // // import '../../domain/interfaces/repositories/favorite_repository.dart';
 // // import '../../domain/entities/favorite_item.dart';
 // // import '../../domain/entities/product.dart';
-// import '../datasources/Remote/Favorite_api_datasource.dart';
-// import '../datasources/Remote/dto/favorite_dto.dart';
-// import '../datasources/Remote/product_api_datasource.dart';
-// import '../datasources/Remote/mappers/product_mapper.dart';
+// import '../datasources/remote/Favorite_api_datasource.dart';
+// import '../datasources/remote/dto/favorite_dto.dart';
+// import '../datasources/remote/product_api_datasource.dart';
+// import '../datasources/remote/mappers/product_mapper.dart';
 //
 // class FavoriteRepositoryImpl implements FavoriteRepository {
 //   final FavoriteApiDataSource favoriteDataSource;

@@ -5,9 +5,9 @@
 // import 'package:riverpod_annotation/riverpod_annotation.dart';
 // import 'package:dio/dio.dart';
 //
-// import '../../../../data/datasources/Remote/api/auth_api.dart';
-// import '../../../../data/datasources/Remote/api/dio_client.dart';
-// import '../../../../data/datasources/Remote/auth_api_datasource.dart';
+// import '../../../../data/datasources/remote/api/auth_api.dart';
+// import '../../../../data/datasources/remote/api/dio_client.dart';
+// import '../../../../data/datasources/remote/auth_api_datasource.dart';
 // import '../../../../data/repositories/auth_repository_impl.dart';
 // import '../../../../core/models/user.dart';
 // import '../../../../domain/interfaces/repositories/auth_repository.dart';

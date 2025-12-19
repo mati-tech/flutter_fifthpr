@@ -2,8 +2,8 @@
 //
 // import '../../core/models/user.dart';
 // import '../../domain/interfaces/repositories/auth_repository.dart';
-// import '../datasources/Remote/auth_api_datasource.dart';
-// import '../datasources/Remote/mappers/user_mapper.dart';
+// import '../datasources/remote/auth_api_datasource.dart';
+// import '../datasources/remote/mappers/user_mapper.dart';
 //
 // // class AuthRepositoryImpl implements AuthRepository {
 // //   final storage = FlutterSecureStorage();

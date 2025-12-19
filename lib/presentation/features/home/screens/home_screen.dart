@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import '../providers/home_provider.dart';
 import '../widgets/featured_product_tile.dart';
 import '../widgets/product_grid.dart';
-import '../widgets/product_tile.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/category_filter.dart';
 
@@ -14,6 +14,25 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final homeState = ref.watch(homeProvider);
+
+    // // Loading state
+    // if (homeState.isLoading) {
+    //   return const Scaffold(
+    //     body: Center(child: CircularProgressIndicator()),
+    //   );
+    // }
+    //
+    // // Error state
+    // if (homeState.error != null) {
+    //   return Scaffold(
+    //     body: Center(
+    //       child: Text(
+    //         homeState.error!,
+    //         style: const TextStyle(color: Colors.red),
+    //       ),
+    //     ),
+    //   );
+    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -36,7 +55,7 @@ class HomeScreen extends ConsumerWidget {
             // const SearchBarWidget(),
             // const CategoryFilter(),
 
-            // Featured Section
+            // Featured Products Section
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
@@ -54,15 +73,14 @@ class HomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 itemCount: homeState.featuredProducts.length,
                 itemBuilder: (context, index) {
-                  return FeaturedProductTile(
-                    product: homeState.featuredProducts[index],
-                  );
+                  final product = homeState.featuredProducts[index];
+                  return FeaturedProductTile(product: product);
                 },
               ),
             ),
             const SizedBox(height: 24),
 
-            // All Products Section
+            // General Products Section
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
@@ -73,12 +91,12 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            // ProductGrid(products: homeState.filteredProducts),
+            ProductGrid(products: homeState.generalProducts),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0, // ← Always 0 since this is home screen
+        currentIndex: 0, // Home
         selectedItemColor: Colors.blueAccent,
         unselectedItemColor: Colors.grey,
         onTap: (index) => _onItemTapped(index, context),
@@ -105,11 +123,9 @@ class HomeScreen extends ConsumerWidget {
   }
 
   void _onItemTapped(int index, BuildContext context) {
-
     switch (index) {
       case 0:
-
-        break;
+        break; // Already Home
       case 1:
         context.pushReplacement('/favorites');
         break;
