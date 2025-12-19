@@ -47,14 +47,16 @@ class _AuthApi implements AuthApi {
   @override
   Future<TokenDto> login(
     username,
-    password,
-  ) async {
+    password, {
+    grantType = 'password',
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = {
       'username': username,
       'password': password,
+      'grant_type': grantType,
     };
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<TokenDto>(Options(

@@ -23,6 +23,7 @@ abstract class AuthApi {
   Future<TokenDto> login(
       @Field('username') String username,
       @Field('password') String password,
+      {@Field('grant_type') String grantType = 'password'}
       );
 
   /// 3️⃣ Get current user (JWT protected)

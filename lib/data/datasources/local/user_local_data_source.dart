@@ -1,112 +1,67 @@
-// lib/data/datasources/local/user_local_data_source_impl.dart
-// import 'dart:convert';
-// // import 'package:shared_preferences/shared_preferences.dart';
-// import '../../../core/models/user.dart';
-// import 'user_local_data_source.dart';
-//
-// /// Упрощенная реализация локального хранилища
-// class UserLocalDataSource {
-//   // final SharedPreferences _prefs;
-//
-//   UserLocalDataSourceImpl(this._prefs);
-//
-//   // Ключи для SharedPreferences
-//   static const String _userKey = 'current_user';
-//   static const String _tokenKey = 'auth_token';
-//
-//   @override
-//   Future<User?> getUserById(String userId) async {
-//     // В упрощенной версии храним только текущего пользователя
-//     final currentUser = await getCurrentUser();
-//     if (currentUser != null && currentUser.id == userId) {
-//       return currentUser;
-//     }
-//     return null;
-//   }
-//
-//   @override
-//   Future<User?> getUserByEmail(String email) async {
-//     final currentUser = await getCurrentUser();
-//     if (currentUser != null && currentUser.email == email) {
-//       return currentUser;
-//     }
-//     return null;
-//   }
-//
-//   @override
-//   Future<void> saveUser(User user) async {
-//     final userJson = jsonEncode(user.toJson());
-//     await _prefs.setString(_userKey, userJson);
-//   }
-//
-//   @override
-//   Future<void> deleteUser(String userId) async {
-//     final currentUser = await getCurrentUser();
-//     if (currentUser != null && currentUser.id == userId) {
-//       await clearAllData();
-//     }
-//   }
-//
-//   @override
-//   Future<void> clearAllUsers() async {
-//     await _prefs.remove(_userKey);
-//   }
-//
-//   @override
-//   Future<void> saveAuthToken(String userId, String token) async {
-//     await _prefs.setString(_tokenKey, token);
-//   }
-//
-//   @override
-//   Future<String?> getAuthToken(String userId) async {
-//     return _prefs.getString(_tokenKey);
-//   }
-//
-//   @override
-//   Future<void> clearAuthData() async {
-//     await _prefs.remove(_tokenKey);
-//   }
-//
-//   @override
-//   Future<void> setCurrentUserId(String userId) async {
-//     // Не нужно отдельно хранить ID, так как храним всего пользователя
-//   }
-//
-//   @override
-//   Future<String?> getCurrentUserId() async {
-//     final user = await getCurrentUser();
-//     return user?.id;
-//   }
-//
-//   @override
-//   Future<void> clearCurrentUser() async {
-//     await _prefs.remove(_userKey);
-//   }
-//
-//   @override
-//   Future<bool> isDataAvailable() async {
-//     final user = await getCurrentUser();
-//     final token = _prefs.getString(_tokenKey);
-//     return user != null && token != null;
-//   }
-//
-//   @override
-//   Future<void> clearAllData() async {
-//     await _prefs.remove(_userKey);
-//     await _prefs.remove(_tokenKey);
-//   }
-//
-//   // Дополнительный метод для получения текущего пользователя
-//   Future<User?> getCurrentUser() async {
-//     final userJson = _prefs.getString(_userKey);
-//     if (userJson == null) return null;
-//
-//     try {
-//       final userMap = jsonDecode(userJson) as Map<String, dynamic>;
-//       return User.fromJson(userMap);
-//     } catch (e) {
-//       await _prefs.remove(_userKey);
-//       return null;
-//     }
-//   }
-// }
+// lib/core/services/token_storage_service.dart
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+class TokenStorageService {
+  static const _accessTokenKey = 'access_token';
+  static const _refreshTokenKey = 'refresh_token';
+  static const _tokenTypeKey = 'token_type';
+
+  final FlutterSecureStorage _storage;
+
+  // Singleton pattern
+  static final TokenStorageService _instance = TokenStorageService._internal();
+
+  factory TokenStorageService() => _instance;
+
+  TokenStorageService._internal() : _storage = const FlutterSecureStorage();
+
+  // Save token data
+  Future<void> saveTokenData({
+    required String accessToken,
+    String? refreshToken,
+    String tokenType = 'bearer',
+  }) async {
+    await _storage.write(key: _accessTokenKey, value: accessToken);
+    if (refreshToken != null) {
+      await _storage.write(key: _refreshTokenKey, value: refreshToken);
+    }
+    await _storage.write(key: _tokenTypeKey, value: tokenType);
+  }
+
+  // Get access token
+  Future<String?> getAccessToken() async {
+    return await _storage.read(key: _accessTokenKey);
+  }
+
+  // Get refresh token
+  Future<String?> getRefreshToken() async {
+    return await _storage.read(key: _refreshTokenKey);
+  }
+
+  // Get token type
+  Future<String?> getTokenType() async {
+    return await _storage.read(key: _tokenTypeKey);
+  }
+
+  // Check if user is logged in
+  Future<bool> isLoggedIn() async {
+    final token = await getAccessToken();
+    return token != null && token.isNotEmpty;
+  }
+
+  // Clear all tokens (logout)
+  Future<void> clearAllTokens() async {
+    await _storage.delete(key: _accessTokenKey);
+    await _storage.delete(key: _refreshTokenKey);
+    await _storage.delete(key: _tokenTypeKey);
+  }
+
+  // Get full authorization header value
+  Future<String?> getAuthorizationHeader() async {
+    final token = await getAccessToken();
+    final type = await getTokenType() ?? 'bearer';
+
+    if (token == null) return null;
+    return '$type $token';
+  }
+}
