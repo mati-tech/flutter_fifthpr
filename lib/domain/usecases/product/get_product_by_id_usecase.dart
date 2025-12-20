@@ -1,4 +1,5 @@
 
+import '../../../core/models/product.dart';
 import '../../../core/models/product_detail.dart';
 import '../../interfaces/repositories/product_repository.dart';
 
@@ -8,7 +9,7 @@ class GetProductsByIdUseCase {
 
   GetProductsByIdUseCase(this.repository);
 
-  Future<ProductDetail> execute(int id) async {
+  Future<Product> execute(int id) async {
     return await repository.getProductDetail(id);
   }
 }

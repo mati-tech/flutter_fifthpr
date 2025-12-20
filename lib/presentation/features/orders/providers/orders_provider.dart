@@ -1,7 +1,7 @@
 // // lib/presentation/features/orders/providers/order_provider.dart
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import '../../../../core/models/order.dart';
-// import '../../../../core/models/cart_item.dart';
+// import '../../../../core/models/cart_product.dart';
 // import '../../../../data/datasources/remote/order_api_datasource.dart';
 // // import '../../../../data/datasources/mock_order_api_datasource.dart';
 // import '../../../../data/repositories/order_repository_impl.dart';

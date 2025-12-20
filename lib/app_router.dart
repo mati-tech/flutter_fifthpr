@@ -44,10 +44,10 @@ final GoRouter router = GoRouter(
       path: '/home',
       builder: (context, state) => const HomeScreen(),
     ),
-    // GoRoute(
-    //   path: '/cart',
-    //   builder: (context, state) => const CartScreen(),
-    // ),
+    GoRoute(
+      path: '/cart',
+      builder: (context, state) => const CartScreen(),
+    ),
     // GoRoute(
     //   path: '/favorites',
     //   builder: (context, state) =>  FavoritesScreen(),
@@ -56,10 +56,10 @@ final GoRouter router = GoRouter(
     //   path: '/orders',
     //   builder: (context, state) => const OrdersScreen(),
     // ),
-    // GoRoute(
-    //   path: '/search',
-    //   builder: (context, state) => const SearchResultsScreen(),
-    // ),
+    GoRoute(
+      path: '/search',
+      builder: (context, state) => const SearchResultsScreen(),
+    ),
     // // GoRoute(
     // //   path: '/settings',
     // //   // builder: (context, state) => const SettingsScreen(),

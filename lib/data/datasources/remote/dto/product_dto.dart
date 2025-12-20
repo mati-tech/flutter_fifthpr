@@ -5,18 +5,26 @@ part 'product_dto.g.dart';
 @JsonSerializable()
 class ProductDto {
   final int id;
-  final String name;
+  final String title;
+  final String description;
   final double price;
-  final String category;
-  @JsonKey(name: 'image_url')
-  final String imageUrl;
+  @JsonKey(name: 'discountPercentage')
+  final double discountPercentage;
+  final double rating;
+  final int stock;
+  final String brand;
+  final List<String> images;
 
   ProductDto({
     required this.id,
-    required this.name,
+    required this.title,
+    required this.description,
     required this.price,
-    required this.category,
-    required this.imageUrl,
+    required this.discountPercentage,
+    required this.rating,
+    required this.stock,
+    required this.brand,
+    required this.images,
   });
 
   factory ProductDto.fromJson(Map<String, dynamic> json) =>

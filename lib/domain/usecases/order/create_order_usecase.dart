@@ -1,9 +1,9 @@
 // // lib/domain/usecases/orders/create_order_usecase.dart
-// import '../../../core/models/cart_item.dart';
+// import '../../../core/models/cart_product.dart';
 // import '../../../core/models/order.dart';
 // import '../../interfaces/repositories/order_repository.dart';
 // // import '../../entities/order.dart';
-// // import '../../entities/cart_item.dart';
+// // import '../../entities/cart_product.dart';
 //
 // class CreateOrderUseCase {
 //   final OrderRepository repository;

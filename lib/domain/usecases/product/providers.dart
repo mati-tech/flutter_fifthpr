@@ -1,6 +1,9 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:storelytech/domain/usecases/product/search_products_usecase.dart';
+import '../../../data/repositories/product_repository_impl.dart';
 import '../../../data/repositories/providers.dart';
+import '../cart/get_cart_items_usecase.dart';
 import '../user/delete_account_usecase.dart';
 import '../user/get_currentuser_usecase.dart';
 import 'get_featured_products_usecase.dart';
@@ -37,4 +40,17 @@ final deleteUserByIdUseCaseProvider =
 Provider<DeleteUserByIdUseCase>((ref) {
   final repository = ref.watch(productRepositoryProvider);
   return DeleteUserByIdUseCase(repository);
+});
+
+final searchProductsUseCaseProvider =
+Provider<SearchProductsUseCase>((ref) {
+  final repository = ref.watch(productRepositoryProvider);
+  return SearchProductsUseCase(repository);
+});
+
+
+final getCartByUserUseCaseProvider =
+Provider<GetCartByUserUseCase>((ref) {
+  final repository = ref.watch(productRepositoryProvider);
+  return GetCartByUserUseCase(repository);
 });

@@ -1,9 +1,9 @@
 // // lib/data/repositories/order_repository_impl.dart
-// import '../../core/models/cart_item.dart';
+// import '../../core/models/cart_product.dart';
 // import '../../core/models/order.dart';
 // import '../../domain/interfaces/repositories/order_repository.dart';
 // // import '../../domain/entities/order.dart';
-// // import '../../domain/entities/cart_item.dart';
+// // import '../../domain/entities/cart_product.dart';
 // import '../datasources/remote/order_api_datasource.dart';
 // // import '../datasources/order_api_datasource.dart';
 //

@@ -19,10 +19,10 @@ final productRepositoryProvider = Provider<ProductRepositoryImpl>((ref) {
 });
 
 
-final generalproductRepositoryProvider = Provider<GeneralProductRepositoryImpl>((ref) {
-  // Получаем DataSource из другого провайдера
-  final generalRemoteDataSource = ref.watch(generalProductRemoteDataSourceProvider);
-
-  // Создаем Repository, передавая DataSource в конструктор
-  return GeneralProductRepositoryImpl(generalRemoteDataSource);
-});
+// final generalproductRepositoryProvider = Provider<GeneralProductRepositoryImpl>((ref) {
+//   // Получаем DataSource из другого провайдера
+//   final generalRemoteDataSource = ref.watch(generalProductRemoteDataSourceProvider);
+//
+//   // Создаем Repository, передавая DataSource в конструктор
+//   return GeneralProductRepositoryImpl(generalRemoteDataSource);
+// });

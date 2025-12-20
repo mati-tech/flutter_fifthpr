@@ -9,17 +9,19 @@ import '../../../../domain/usecases/product/get_product_by_id_usecase.dart';
 import '../../../../domain/usecases/product/get_products_usecase.dart';
 // import '../../../../domain/usecases/product/get_products_by_id_usecase.dart'; // Добавьте
 import '../../../../domain/usecases/product/providers.dart';
+import '../../../../domain/usecases/product/search_products_usecase.dart';
 
 /// =======================================================
 /// HOME PROVIDER
 /// =======================================================
 final homeProvider = StateNotifierProvider<HomeNotifier, HomeState>((ref) {
-  final featuredUseCase = ref.watch(getFeaturedProductsUseCaseProvider);
   final productsUseCase = ref.watch(getProductsUseCaseProvider);
-  final productByIdUseCase = ref.watch(getProductsByIdUseCaseProvider); // Добавьте
-  return HomeNotifier(featuredUseCase, productsUseCase, productByIdUseCase) // Изменить
-    ..initialize();
+  final productByIdUseCase = ref.watch(getProductsByIdUseCaseProvider);
+  final searchUseCase = ref.watch(searchProductsUseCaseProvider);
+
+  return HomeNotifier(productsUseCase, productByIdUseCase, searchUseCase)..initialize();
 });
+
 
 final getProductsByIdUseCaseProvider = Provider<GetProductsByIdUseCase>((ref) {
   final repository = ref.watch(productRepositoryProvider);
@@ -30,58 +32,55 @@ final getProductsByIdUseCaseProvider = Provider<GetProductsByIdUseCase>((ref) {
 /// HOME STATE NOTIFIER
 /// =======================================================
 class HomeNotifier extends StateNotifier<HomeState> {
-  final GetFeaturedProductsUseCase _featuredUseCase;
   final GetProductsUseCase _productsUseCase;
-  final GetProductsByIdUseCase _productByIdUseCase; // Добавьте
+  final GetProductsByIdUseCase _productByIdUseCase;
+  final SearchProductsUseCase _searchUseCase;
 
   HomeNotifier(
-      this._featuredUseCase,
       this._productsUseCase,
-      this._productByIdUseCase, // Добавьте
+      this._productByIdUseCase,
+      this._searchUseCase,
       ) : super(const HomeState());
 
-  /// Load both featured and general products
+  /// Load initial products
   Future<void> initialize() async {
     state = state.copyWith(isLoading: true);
     try {
-      final featured = await _featuredUseCase.execute();
       final products = await _productsUseCase.execute();
-      state = state.copyWith(
-        featuredProducts: featured,
-        generalProducts: products,
-        isLoading: false,
-        error: null,
-      );
+      state = state.copyWith(products: products, isLoading: false, error: null);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: e.toString());
+    }
+  }
+
+  /// Search products
+  Future<void> searchProducts(String query) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      final results = await _searchUseCase.execute(query);
+      state = state.copyWith(products: results, isLoading: false, error: null);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
   /// Get product by ID
-  Future<ProductDetail?> getProductById(int id) async { // Новый метод
+  Future<Product?> getProductById(int id) async {
     try {
       final product = await _productByIdUseCase.execute(id);
-      // Сохраняем выбранный продукт в state
       state = state.copyWith(selectedProduct: product);
       return product;
-    } catch (e) {
-      print('Error loading product $id: $e');
+    } catch (_) {
       return null;
     }
   }
 
-  /// Refresh both lists
+  /// Refresh products
   Future<void> refresh() async {
     state = state.copyWith(isRefreshing: true);
     try {
-      final featured = await _featuredUseCase.execute();
       final products = await _productsUseCase.execute();
-      state = state.copyWith(
-        featuredProducts: featured,
-        generalProducts: products,
-        isRefreshing: false,
-        error: null,
-      );
+      state = state.copyWith(products: products, isRefreshing: false, error: null);
     } catch (e) {
       state = state.copyWith(isRefreshing: false, error: e.toString());
     }
@@ -91,17 +90,49 @@ class HomeNotifier extends StateNotifier<HomeState> {
 /// =======================================================
 /// HOME STATE
 /// =======================================================
+// class HomeState {
+//   final List<FeaturedProduct> featuredProducts;
+//   final List<Product> generalProducts;
+//   final ProductDetail? selectedProduct; // Добавьте для хранения выбранного продукта
+//   final bool isLoading;
+//   final bool isRefreshing;
+//   final String? error;
+//
+//   const HomeState({
+//     this.featuredProducts = const [],
+//     this.generalProducts = const [],
+//     this.selectedProduct,
+//     this.isLoading = false,
+//     this.isRefreshing = false,
+//     this.error,
+//   });
+//
+//   HomeState copyWith({
+//     List<FeaturedProduct>? featuredProducts,
+//     List<Product>? generalProducts,
+//     ProductDetail? selectedProduct, // Добавьте
+//     bool? isLoading,
+//     bool? isRefreshing,
+//     String? error,
+//   }) =>
+//       HomeState(
+//         featuredProducts: featuredProducts ?? this.featuredProducts,
+//         generalProducts: generalProducts ?? this.generalProducts,
+//         selectedProduct: selectedProduct ?? this.selectedProduct,
+//         isLoading: isLoading ?? this.isLoading,
+//         isRefreshing: isRefreshing ?? this.isRefreshing,
+//         error: error,
+//       );
+// }
 class HomeState {
-  final List<FeaturedProduct> featuredProducts;
-  final List<FeaturedProduct> generalProducts;
-  final ProductDetail? selectedProduct; // Добавьте для хранения выбранного продукта
+  final List<Product> products;
+  final Product? selectedProduct;
   final bool isLoading;
   final bool isRefreshing;
   final String? error;
 
   const HomeState({
-    this.featuredProducts = const [],
-    this.generalProducts = const [],
+    this.products = const [],
     this.selectedProduct,
     this.isLoading = false,
     this.isRefreshing = false,
@@ -109,19 +140,18 @@ class HomeState {
   });
 
   HomeState copyWith({
-    List<FeaturedProduct>? featuredProducts,
-    List<FeaturedProduct>? generalProducts,
-    ProductDetail? selectedProduct, // Добавьте
+    List<Product>? products,
+    Product? selectedProduct,
     bool? isLoading,
     bool? isRefreshing,
     String? error,
-  }) =>
-      HomeState(
-        featuredProducts: featuredProducts ?? this.featuredProducts,
-        generalProducts: generalProducts ?? this.generalProducts,
-        selectedProduct: selectedProduct ?? this.selectedProduct,
-        isLoading: isLoading ?? this.isLoading,
-        isRefreshing: isRefreshing ?? this.isRefreshing,
-        error: error,
-      );
+  }) {
+    return HomeState(
+      products: products ?? this.products,
+      selectedProduct: selectedProduct ?? this.selectedProduct,
+      isLoading: isLoading ?? this.isLoading,
+      isRefreshing: isRefreshing ?? this.isRefreshing,
+      error: error,
+    );
+  }
 }

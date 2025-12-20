@@ -66,18 +66,18 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 280,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: homeState.featuredProducts.length,
-                itemBuilder: (context, index) {
-                  final product = homeState.featuredProducts[index];
-                  return FeaturedProductTile(product: product);
-                },
-              ),
-            ),
+            // SizedBox(
+            //   height: 280,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     padding: const EdgeInsets.symmetric(horizontal: 16),
+            //     itemCount: homeState.featuredProducts.length,
+            //     itemBuilder: (context, index) {
+            //       final product = homeState.featuredProducts[index];
+            //       return FeaturedProductTile(product: product);
+            //     },
+            //   ),
+            // ),
             const SizedBox(height: 24),
 
             // General Products Section
@@ -91,7 +91,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            ProductGrid(products: homeState.generalProducts),
+            ProductGrid(products: homeState.products),
           ],
         ),
       ),

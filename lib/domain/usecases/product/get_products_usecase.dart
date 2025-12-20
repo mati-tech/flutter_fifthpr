@@ -12,7 +12,7 @@ class GetProductsUseCase {
 
   GetProductsUseCase(this.repository);
 
-  Future<List<FeaturedProduct>> execute() async {
+  Future<List<Product>> execute() async {
     return await repository.getProducts();
   }
 }

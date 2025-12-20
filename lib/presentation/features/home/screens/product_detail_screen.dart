@@ -55,9 +55,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             flexibleSpace: FlexibleSpaceBar(
               background: Hero(
                 tag: 'product-image-${widget.productId}',
-                child: selectedProduct?.imageUrl != null
+                child: selectedProduct?.images[0] != null
                     ? Image.network(
-                  selectedProduct!.imageUrl,
+                  selectedProduct!.images[0],
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: Colors.grey[200],

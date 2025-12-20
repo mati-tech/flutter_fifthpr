@@ -1,6 +1,6 @@
 // // lib/domain/interfaces/repositories/cart_repository.dart
-// import '../../../core/models/cart_item.dart';
-// // import '../entities/cart_item.dart';
+// import '../../../core/models/cart_product.dart';
+// // import '../entities/cart_product.dart';
 //
 // abstract class CartRepository {
 //   // Add item to cart

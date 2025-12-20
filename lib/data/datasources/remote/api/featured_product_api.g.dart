@@ -13,7 +13,7 @@ class _FeaturedProductApi implements FeaturedProductApi {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://fakestoreapi.com';
+    baseUrl ??= 'https://dummyjson.com/';
   }
 
   final Dio _dio;
@@ -34,7 +34,7 @@ class _FeaturedProductApi implements FeaturedProductApi {
     )
             .compose(
               _dio.options,
-              '/products/category/electronics',
+              '/products/category/smartphones',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -47,39 +47,36 @@ class _FeaturedProductApi implements FeaturedProductApi {
   }
 
   @override
-  Future<List<FeaturedProductDto>> getAllProducts() async {
+  Future<ProductsResponseDto> getAllProducts() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<FeaturedProductDto>>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ProductsResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/products',
+              '/products/category/laptops',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) =>
-            FeaturedProductDto.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = ProductsResponseDto.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<ProductDetailDto> getProductDetail(id) async {
+  Future<ProductDto> getProductDetail(id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<ProductDetailDto>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<ProductDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -91,7 +88,53 @@ class _FeaturedProductApi implements FeaturedProductApi {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ProductDetailDto.fromJson(_result.data!);
+    final value = ProductDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ProductsResponseDto> searchProducts(query) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'q': query};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ProductsResponseDto>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/products/search',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ProductsResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CartResponseDto> getUserCarts(userId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<CartResponseDto>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/carts/user/${userId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = CartResponseDto.fromJson(_result.data!);
     return value;
   }
 

@@ -8,7 +8,7 @@ import '../../../shared/widgets/app_button.dart';
 import '../screens/product_detail_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 class ProductTile extends StatelessWidget {
-  final FeaturedProduct product;
+  final Product product;
 
   void _navigateToProductDetail(BuildContext context) {
     context.push('/product_detail', extra: product.id);
@@ -36,7 +36,7 @@ class ProductTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: product.imageUrl,
+                    imageUrl: product.images[0],
                     fit: BoxFit.cover,
                     progressIndicatorBuilder: (context, url, progress) =>
                     const CircularProgressIndicator(),

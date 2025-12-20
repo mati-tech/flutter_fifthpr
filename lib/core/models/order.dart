@@ -1,5 +1,5 @@
 // // lib/domain/entities/order.dart
-// import 'cart_item.dart';
+// import 'cart_product.dart';
 //
 // enum OrderStatus {
 //   pending,

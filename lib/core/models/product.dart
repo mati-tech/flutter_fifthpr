@@ -1,15 +1,23 @@
 class Product {
   final int id;
-  final String name;
+  final String title;
+  final String description;
   final double price;
-  final String category;
-  final String imageUrl;
+  final double discountPercentage;
+  final double rating;
+  final int stock;
+  final String brand;
+  final List<String> images;
 
   Product({
     required this.id,
-    required this.name,
+    required this.title,
+    required this.description,
     required this.price,
-    required this.category,
-    required this.imageUrl,
+    required this.discountPercentage,
+    required this.rating,
+    required this.stock,
+    required this.brand,
+    required this.images,
   });
 }

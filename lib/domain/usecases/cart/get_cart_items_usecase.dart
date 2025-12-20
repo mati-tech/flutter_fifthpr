@@ -1,14 +1,18 @@
 // // lib/domain/usecases/cart/get_cart_items_usecase.dart
-// import '../../../core/models/cart_item.dart';
+// import '../../../core/models/cart_product.dart';
 // import '../../interfaces/repositories/cart_repository.dart';
-// // import '../../entities/cart_item.dart';
+// // import '../../entities/cart_product.dart';
 //
-// class GetCartItemsUseCase {
-//   final CartRepository repository;
-//
-//   GetCartItemsUseCase(this.repository);
-//
-//   Future<List<CartItem>> execute() async {
-//     return await repository.getCartItems();
-//   }
-// }
+
+import '../../../core/models/cart.dart';
+import '../../../data/repositories/product_repository_impl.dart';
+
+class GetCartByUserUseCase {
+  final ProductRepositoryImpl repository;
+
+  GetCartByUserUseCase(this.repository);
+
+  Future<List<Cart>> execute(int userId) async {
+    return await repository.getCartByUserId(userId);
+  }
+}

@@ -1,5 +1,5 @@
 // // lib/domain/interfaces/repositories/order_repository.dart
-// import '../../../core/models/cart_item.dart';
+// import '../../../core/models/cart_product.dart';
 // import '../../../core/models/order.dart';
 // // import '../entities/order.dart';
 //

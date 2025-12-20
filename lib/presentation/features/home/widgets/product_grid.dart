@@ -5,7 +5,7 @@ import '../../../../core/models/product_detail.dart';
 import 'product_tile.dart';
 
 class ProductGrid extends StatelessWidget {
-  final List<FeaturedProduct> products;
+  final List<Product> products;
 
   const ProductGrid({super.key, required this.products});
 

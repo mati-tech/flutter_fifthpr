@@ -1,7 +1,7 @@
 // // lib/domain/usecases/cart/add_to_cart_usecase.dart
-// import '../../../core/models/cart_item.dart';
+// import '../../../core/models/cart_product.dart';
 // import '../../interfaces/repositories/cart_repository.dart';
-// // import '../../entities/cart_item.dart';
+// // import '../../entities/cart_product.dart';
 //
 // class AddToCartUseCase {
 //   final CartRepository repository;

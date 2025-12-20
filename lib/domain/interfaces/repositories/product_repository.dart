@@ -9,9 +9,10 @@ import '../../../core/models/user.dart';
 abstract class ProductRepository {
 
   Future<List<FeaturedProduct>> getFeaturedProducts();
-  Future<List<FeaturedProduct>> getProducts();
-  Future<ProductDetail> getProductDetail(int id);
+  Future<List<Product>> getProducts();
+  Future<Product> getProductDetail(int id);
 
+  Future<List<Product>> searchProducts(String query);
   Future<User> getUserDetail(int id);
 
   Future<User> deleteUser(int id);
