@@ -10,7 +10,7 @@ import 'general_product_repository_impl.dart';
 // import 'general_product_repository_impl.dart';
 // import 'remote/featured_product_datasource.dart';
 
-final product2RepositoryProvider = Provider<ProductRepositoryImpl>((ref) {
+final productRepositoryProvider = Provider<ProductRepositoryImpl>((ref) {
   // Получаем DataSource из другого провайдера
   final featuredRemoteDataSource = ref.watch(featuredProductRemoteDataSourceProvider);
 
@@ -19,10 +19,10 @@ final product2RepositoryProvider = Provider<ProductRepositoryImpl>((ref) {
 });
 
 
-// final generalproductRepositoryProvider = Provider<GeneralProductRepositoryImpl>((ref) {
-//   // Получаем DataSource из другого провайдера
-//   final generalRemoteDataSource = ref.watch(generalProductRemoteDataSourceProvider);
-//
-//   // Создаем Repository, передавая DataSource в конструктор
-//   return GeneralProductRepositoryImpl(generalRemoteDataSource);
-// });
+final generalproductRepositoryProvider = Provider<GeneralProductRepositoryImpl>((ref) {
+  // Получаем DataSource из другого провайдера
+  final generalRemoteDataSource = ref.watch(generalProductRemoteDataSourceProvider);
+
+  // Создаем Repository, передавая DataSource в конструктор
+  return GeneralProductRepositoryImpl(generalRemoteDataSource);
+});
