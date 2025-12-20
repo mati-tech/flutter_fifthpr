@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../../../core/models/featured_product.dart';
 import '../../../../core/models/product.dart';
+import '../../../../core/models/product_detail.dart';
 import 'product_tile.dart';
 
 class ProductGrid extends StatelessWidget {
-  final List<Product> products;
+  final List<FeaturedProduct> products;
 
   const ProductGrid({super.key, required this.products});
 

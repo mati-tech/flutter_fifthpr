@@ -7,11 +7,12 @@ import '../../interfaces/repositories/product_repository.dart';
 // import '../../entities/product.dart';
 
 class GetProductsUseCase {
-  final GeneralProductRepository repository;
+  // final GeneralProductRepository repository;
+  final ProductRepository repository;
 
   GetProductsUseCase(this.repository);
 
-  Future<List<Product>> execute() async {
+  Future<List<FeaturedProduct>> execute() async {
     return await repository.getProducts();
   }
 }

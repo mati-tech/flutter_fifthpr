@@ -32,10 +32,10 @@ import 'core/models/product.dart';
 final GoRouter router = GoRouter(
   initialLocation: '/home',
   routes: [
-    // GoRoute(
-    //   path: '/login',
-    //   builder: (context, state) => const LoginScreen(),
-    // ),
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => const LoginScreen(),
+    ),
     // GoRoute(
     //   path: '/register',
     //   builder: (context, state) => const RegisterScreen(),
@@ -64,10 +64,10 @@ final GoRouter router = GoRouter(
     // //   path: '/settings',
     // //   // builder: (context, state) => const SettingsScreen(),
     // // ),
-    // GoRoute(
-    //   path: '/profile',
-    //   builder: (context, state) => const ProfileScreen(),
-    // ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const ProfileScreen(),
+    ),
     // GoRoute(
     //   path: '/edit-profile',
     //   builder: (context, state) => const EditProfileScreen(),
@@ -79,13 +79,15 @@ final GoRouter router = GoRouter(
     //     return OrderDetailScreen(orderId: orderId);
     //   },
     // ),
-    // GoRoute(
-      // path: '/product_detail',
-      // builder: (context, state) {
-      //   final product = state.extra as Product; // Получаем весь объект
-      //   return ProductDetailScreen(product: product);
-      // },
-    // ),
+    // app_router.dart или подобный файл
+    GoRoute(
+      path: '/product_detail',
+      builder: (context, state) {
+        // Получаем ID как int, а не Product
+        final productId = state.extra as int; // исправьте на int
+        return ProductDetailScreen(productId: productId);
+      },
+    ),
     // GoRoute(
     //   path: '/',
     //   redirect: (context, state) => '/login',

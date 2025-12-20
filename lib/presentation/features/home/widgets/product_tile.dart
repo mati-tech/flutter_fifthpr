@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/models/featured_product.dart';
 import '../../../../core/models/product.dart';
+import '../../../../core/models/product_detail.dart';
 import '../../../shared/app_theme.dart';
 import '../../../shared/widgets/app_button.dart';
 import '../screens/product_detail_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 class ProductTile extends StatelessWidget {
-  final Product product;
+  final FeaturedProduct product;
 
   void _navigateToProductDetail(BuildContext context) {
-    context.push('/product_detail', extra: product);
+    context.push('/product_detail', extra: product.id);
   }
 
   const ProductTile({super.key, required this.product});
@@ -53,7 +55,7 @@ class ProductTile extends StatelessWidget {
                 const SizedBox(height: 12),
                 // Product Name
                 Text(
-                  product.name,
+                  product.title,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,

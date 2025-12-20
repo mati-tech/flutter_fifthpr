@@ -1,33 +1,19 @@
 class User {
   final int id;
-  final String name;
   final String email;
-  final bool isActive;
+  final String username;
+  final String password;
+  final String firstname;
+  final String lastname;
+  final String phone;
 
   User({
     required this.id,
     required this.email,
-    required this.name,
-    required this.isActive,
+    required this.username,
+    required this.password,
+    required this.firstname,
+    required this.lastname,
+    required this.phone,
   });
-
-  User copyWith({
-    int? id,
-    String? email,
-    String? name,
-    bool? isActive,
-  }) {
-    return User(
-      id: id ?? this.id,
-      email: email ?? this.email,
-      name: name ?? this.name,
-      isActive: isActive ?? this.isActive, // Исправлено: было null
-    );
-  }
-
-  // Для отладки
-  @override
-  String toString() {
-    return 'User(id: $id, name: $name, email: $email, isActive: $isActive)';
-  }
 }
